@@ -1,0 +1,121 @@
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50debug35.12.dtd" >
+   <PATCH nodename="C:\Users\elias\dev\misc\VL.GStreamer\Overview.v4p" systemname="Overview" filename="C:\Users\elias\dev\misc\VL.GStreamer\Overview.v4p">
+   <BOUNDS type="Window" left="13405" top="1155" width="8995" height="5999">
+   </BOUNDS>
+   <PACK Name="addonpack" Version="35.9.0">
+   </PACK>
+   <NODE systemname="ImageToTexture (EX9.Texture)" filename="..\..\vvvv\public-vl\VL.CoreLib.VVVV\vvvv\nodes\plugins\VL.CoreLib.VVVV.dll" nodename="ImageToTexture (EX9.Texture)" componentmode="Hidden" id="1">
+   <BOUNDS type="Node" left="3913" top="2569" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="3913" top="2569" width="1400" height="1400">
+   </BOUNDS>
+   <PIN pinname="Data" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Texture Out" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="FullscreenQuad (DX9)" filename="%VVVV%\addonpack\lib\nodes\modules\TextureFX\misc\FullscreenQuad (DX9).v4p" nodename="FullscreenQuad (DX9)" componentmode="Hidden" id="2">
+   <BOUNDS type="Node" left="3927" top="3150" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Texture" visible="1">
+   </PIN>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="1" srcpinname="Texture Out" dstnodeid="2" dstpinname="Texture">
+   </LINK>
+   <NODE systemname="Renderer (EX9)" nodename="Renderer (EX9)" componentmode="InAWindow" id="3">
+   <BOUNDS type="Node" left="4032" top="4774" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="4032" top="4774" width="2093" height="1568">
+   </BOUNDS>
+   <BOUNDS type="Window" left="5173" top="9128" width="5411" height="4417">
+   </BOUNDS>
+   <PIN pinname="Layers" visible="1">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="5">
+   <BOUNDS type="Box" left="3899" top="364" width="480" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="3899" top="364" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="1">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="1">
+   </PIN>
+   </NODE>
+   <NODE id="4" systemname="Playbin (GStreamer)" filename="vl\VVVV.GStreamer.Playbin.vl" nodename="Playbin (GStreamer)" componentmode="Hidden" hiddenwhenlocked="0" managers="">
+   <PIN pinname="Play" visible="1">
+   </PIN>
+   <BOUNDS type="Node" left="3969" top="1687" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="0" top="0" width="2240" height="1680">
+   </BOUNDS>
+   <BOUNDS type="Window" left="0" top="0" width="5600" height="4200">
+   </BOUNDS>
+   <PIN pinname="Descriptive Name" pintype="Configuration" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Tag" pintype="Configuration" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Evaluate" pintype="Input" visible="-1" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Window Handle" pintype="Output">
+   </PIN>
+   <PIN pinname="Images" pintype="Output" visible="1">
+   </PIN>
+   <PIN pinname="ID" pintype="Output" visible="-1">
+   </PIN>
+   <PIN pinname="Uri" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="4" srcpinname="Images" dstnodeid="1" dstpinname="Data">
+   </LINK>
+   <LINK srcnodeid="5" srcpinname="Y Output Value" dstnodeid="4" dstpinname="Play">
+   </LINK>
+   <NODE systemname="Group (EX9)" nodename="Group (EX9)" componentmode="Hidden" id="6">
+   <BOUNDS type="Node" left="4004" top="4361" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Layer 2" visible="1">
+   </PIN>
+   <PIN pinname="Layer 1" visible="1">
+   </PIN>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="PerfMeter (Debug)" filename="%VVVV%\lib\nodes\modules\Debug\PerfMeter (Debug).v4p" nodename="PerfMeter (Debug)" componentmode="Hidden" id="7">
+   <BOUNDS type="Node" left="2485" top="3556" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="6" srcpinname="Layer" dstnodeid="3" dstpinname="Layers">
+   </LINK>
+   <LINK srcnodeid="7" srcpinname="Layer" dstnodeid="6" dstpinname="Layer 2">
+   </LINK>
+   <LINK srcnodeid="2" srcpinname="Layer" dstnodeid="6" dstpinname="Layer 1">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="8">
+   <BOUNDS type="Box" left="5271" top="735" width="3157" height="343">
+   </BOUNDS>
+   <BOUNDS type="Node" left="5271" top="735" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="1" visible="1" values="C:\Users\elias\Desktop\sintel_trailer-1080p.mp4">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="8" srcpinname="Output String" dstnodeid="4" dstpinname="Uri">
+   </LINK>
+   </PATCH>

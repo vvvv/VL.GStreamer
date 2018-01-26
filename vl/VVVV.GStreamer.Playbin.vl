@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document xmlns:p="property" Id="GB2VxUl5VdhM5rsl5IbjQg" Version="0.74">
+  <NugetDependency Id="RKFCmk1Lg5EP3I4IQegLTw" Location="VL.CoreLib" Version="0.35.21" />
+  <NugetDependency Id="U2JwHqMJLyGLDs97lM6eZ6" Location="VL.CoreLib.VVVV" Version="0.35.21" />
+  <NugetDependency Id="Q18ZLENm9gzPhBnFnztPMP" Location="VL.Core" Version="0.35.21" />
+  <Patch Id="Th8hpfHvBF4Lk6VOwDCc9D">
+    <Canvas Id="NtZT52Xp5qNOXK0fF2H7kv" DefaultCategory="VVVV.GStreamer" BordersChecked="false">
+      <!--
+
+    ************************ Playbin ************************
+
+-->
+      <Node Name="Playbin" Bounds="153,200" Id="TSttkfeJHQSN5gkEF54G9o">
+        <p:NodeReference>
+          <Choice Kind="ContainerDefinition" Name="Patch" />
+          <FullNameCategoryReference ID="Primitive" />
+        </p:NodeReference>
+        <Patch Id="CzjSvRY5dvXQDxmAOA8mZj">
+          <Patch Id="ESJZDDS0I02LAWDOx9RJVV" Name="Create" />
+          <Patch Id="OkqGvJfa3PDOppp4PFQghD" Name="Update">
+            <Pin Id="J6yIwBjEyrgLaNGWUA9QA5" Name="Images" Kind="OutputPin" Bounds="602,450" />
+            <Pin Id="JjKgSgCEy9zMZDuOt5sOp2" Name="Play" Kind="InputPin" Bounds="324,125" />
+            <Pin Id="C8ZyKOjVmmtPKHcrOD5ZNW" Name="Uri" Kind="InputPin" Bounds="199,148" />
+          </Patch>
+          <Canvas Id="C4yd3S6BFv9NWqJ2WO3OFi">
+            <Pad Id="Agp6p2ZFq4qLnygy5qKawZ" Bounds="394,90,222,17" ShowValueBox="true" Value="&quot;For getting started, see:&quot;">
+              <p:ValueBoxSettings>
+                <p:fontsize p:Type="Int32">13</p:fontsize>
+                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+              </p:ValueBoxSettings>
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="VL.CoreLib.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+                <CategoryReference Kind="Category" Name="Primitive" />
+              </p:TypeAnnotation>
+            </Pad>
+            <Pad Id="O4Rbhs23ekpP1bPxi2C7IH" Bounds="394,124,350,13" ShowValueBox="true" Value="&quot;https://vvvv.org/documentation/dynamic-vl-plugin-reference&quot;">
+              <p:ValueBoxSettings>
+                <p:fontsize p:Type="Int32">8</p:fontsize>
+                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+                <p:showvalue p:Type="Boolean">true</p:showvalue>
+              </p:ValueBoxSettings>
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="VL.CoreLib.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+                <CategoryReference Kind="Category" Name="Primitive" />
+              </p:TypeAnnotation>
+            </Pad>
+            <Node Bounds="262,245,65,13" Id="HUNQQZw5R1dPr8hbqR42PJ">
+              <p:NodeReference LastCategoryFullName="GStreamer" LastSymbolSource="VL.GStreamer.vl" LastDependency="VVVV.GStreamer.Playbin.vl">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <Choice Kind="ProcessAppFlag" Name="Player" />
+              </p:NodeReference>
+              <Pin Id="Lh8MvmF1qIAP39jmmajSao" Name="Uri" Kind="InputPin" />
+              <Pin Id="FRADj5p36J5L1mLL0ifEbF" Name="Format" Kind="InputPin" />
+              <Pin Id="PROc2SUZ14oOWtiPB056ze" Name="Seek Time" Kind="InputPin" DefaultValue="36.47">
+                <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="VL.CoreLib.vl">
+                  <Choice Kind="TypeFlag" Name="Float32" />
+                </p:TypeAnnotation>
+              </Pin>
+              <Pin Id="MwgvxZUf9agOtYrxmUVTHg" Name="Play" Kind="InputPin" />
+              <Pin Id="IhY14jCLJmLOy7Bx1iFHqa" Name="State" Kind="OutputPin" />
+              <Pin Id="D2HnEXd8MCNOG4WzbuoWvy" Name="Position" Kind="OutputPin" />
+              <Pin Id="NJwxOWpCglQNZPSdbRDQd8" Name="Duration" Kind="OutputPin" />
+              <Pin Id="AJOBCPk1rHtNlzSXB5LzEb" Name="Video Frames" Kind="OutputPin" />
+            </Node>
+            <Pad Id="VgevmXXSPUsLWOaDUtSCjP" Comment="Duration" Bounds="312,328,34,18" ShowValueBox="true" isIOBox="true" />
+            <Pad Id="VPpggyfpzdUMWpBGvXh4hq" Comment="Position" Bounds="279,365,34,18" ShowValueBox="true" isIOBox="true" />
+            <Pad Id="V27bVLZ6rjIN6ic96Wpg9j" Comment="State" Bounds="182,320,82,18" ShowValueBox="true" isIOBox="true" />
+            <Node Bounds="451,352,58,13" Id="E3gycw1msKQLOdvkQSfa6g">
+              <p:NodeReference LastCategoryFullName="Reactive" LastSymbolSource="VL.CoreLib.vl" LastDependency="VVVV.GStreamer.Playbin.vl">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <Choice Kind="ProcessAppFlag" Name="HoldLatest" />
+              </p:NodeReference>
+              <Pin Id="UlXtyeEjBDlLexQL18mICP" Name="Initial Result" Kind="InputPin" />
+              <Pin Id="BLYtvloAWobLJWhzx8fQVJ" Name="Async Notifications" Kind="InputPin" />
+              <Pin Id="MSUCyePpQ8YPC1dGJHcpjg" Name="Reset" Kind="InputPin" />
+              <Pin Id="H1t0C7wCiXjNybisYTGcMa" Name="Value" Kind="OutputPin" />
+              <Pin Id="N4EpmQToFJVPVhK5wmukM6" Name="On Data" Kind="OutputPin" />
+            </Node>
+            <ControlPoint Id="KrNBFwAcZc1OtLvKBweqic" Bounds="454,436" />
+            <ControlPoint Id="PmLYCDWim6vLx0uhsGDQAW" Bounds="324,125" />
+            <ControlPoint Id="Iv9alExLytnOyAAb4gYx9S" Bounds="179,138" />
+          </Canvas>
+          <ProcessDefinition Id="FHNLl8GWgcVOJzRkkPI83E">
+            <Fragment Id="MRFnVwHDf0WOO7H3jKbCxI" Patch="ESJZDDS0I02LAWDOx9RJVV" Enabled="true" />
+            <Fragment Id="PulIQZQ5YLtPp6C2yvbTNE" Patch="OkqGvJfa3PDOppp4PFQghD" Enabled="true" />
+          </ProcessDefinition>
+          <Link Id="S5duUTxyDhaLmoILyL8G0L" Ids="NJwxOWpCglQNZPSdbRDQd8,VgevmXXSPUsLWOaDUtSCjP" />
+          <Link Id="NzxZyouP7o8P3e0NoE9Oan" Ids="D2HnEXd8MCNOG4WzbuoWvy,VPpggyfpzdUMWpBGvXh4hq" />
+          <Link Id="O4X2vdMuXSdLVa1RjOjYgF" Ids="IhY14jCLJmLOy7Bx1iFHqa,V27bVLZ6rjIN6ic96Wpg9j" />
+          <Link Id="PZnFAUgmLFWPmqEAfUV6Au" Ids="AJOBCPk1rHtNlzSXB5LzEb,BLYtvloAWobLJWhzx8fQVJ" />
+          <Link Id="HSih4KQVcA7MWmeuMlhIoJ" Ids="H1t0C7wCiXjNybisYTGcMa,KrNBFwAcZc1OtLvKBweqic" />
+          <Link Id="PZ8N8HoVjiKNxWuGYqXJ72" Ids="KrNBFwAcZc1OtLvKBweqic,J6yIwBjEyrgLaNGWUA9QA5" IsHidden="true" />
+          <Link Id="CRSXHo4UBhiL7XvfFtDX3Y" Ids="PmLYCDWim6vLx0uhsGDQAW,MwgvxZUf9agOtYrxmUVTHg" />
+          <Link Id="TSohudLFMAwPRbpEmk7HIE" Ids="JjKgSgCEy9zMZDuOt5sOp2,PmLYCDWim6vLx0uhsGDQAW" IsHidden="true" />
+          <Link Id="ElkZQ3Apvl5N4Y7WNMx1fB" Ids="Iv9alExLytnOyAAb4gYx9S,Lh8MvmF1qIAP39jmmajSao" />
+          <Link Id="SCavp4ThfknL54X4iDyrYU" Ids="C8ZyKOjVmmtPKHcrOD5ZNW,Iv9alExLytnOyAAb4gYx9S" IsHidden="true" />
+        </Patch>
+      </Node>
+    </Canvas>
+  </Patch>
+  <DocumentDependency Id="ASOIFLXYLngLGX5Fn8lOwg" Location="../VL.GStreamer.vl" />
+</Document>
