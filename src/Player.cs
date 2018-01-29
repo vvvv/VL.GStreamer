@@ -2,6 +2,7 @@
 using Gst.App;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -15,64 +16,119 @@ namespace VL.Lib.GStreamer
     {
         static Player()
         {
-
+            // Initialize Gstreamer
+            var args = System.Array.Empty<string>();
+            var path = Environment.GetEnvironmentVariable("PATH") ?? String.Empty;
+            Environment.SetEnvironmentVariable("PATH", path + Path.PathSeparator + @"C:\gstreamer\1.0\x86_64\bin");
+            Application.Init(ref args);
+            System.Windows.Forms.Application.Idle += Application_Idle;
         }
 
-        private readonly Pipeline playbin;
-        private readonly AppSink videosink;
-        private readonly Element audiosink;
-        private readonly IObservable<IResourceProvider<IImage>> videoFrames;
+        private static void Application_Idle(object sender, EventArgs e)
+        {
+            var context = GLib.MainContext.Default;
+            if (context.HasPendingEvents)
+                context.RunIteration(may_block: true);
+        }
 
-        private string FUri;
-        private string FFormat;
-        private float FSeekTime;
-        private bool FPlay;
-        private long FDuration = -1;
-        private State FState;
+        readonly Subject<IResourceProvider<IImage>> videoFrames = new Subject<IResourceProvider<IImage>>();
+        readonly IObservable<object> disposalTrigger;
+        readonly Pipeline playbin;
+        readonly Bus bus;
+        readonly AppSink videosink;
+        readonly Element audiosink;
+
+        string FUri;
+        string FFormat;
+        float FSeekTime;
+        bool FSeeking;
+        bool FPlay;
+        float FPosition, FDuration = -1f;
+        State FState;
 
         public Player()
         {
             // Create the empty pipeline
             playbin = ElementFactory.Make("playbin") as Pipeline;
-            using (var bus = playbin.Bus)
-            {
-                bus.AddSignalWatch();
-                bus.Message += Bus_Message;
-            }
+            bus = playbin.Bus;
+            bus.AddSignalWatch();
+            bus.Message += Bus_Message;
             
-            // TODO: Figure out why audio has such high CPU usage - so disable it for now.
             audiosink = ElementFactory.Make("autoaudiosink", "audiosink");
             videosink = new AppSink("videosink");
 
             if (playbin == null || videosink == null || audiosink == null)
                 throw new Exception("Not all elements could be created");
 
-            videosink.Sync = true;
-            videosink.Qos = true;
-            videosink.Drop = true;
+            videosink.Sync = false;
+            videosink.Qos = false;
+            videosink.Drop = false;
             videosink.Caps = Caps.FromString("video/x-raw, format=BGRx");
-            videosink.MaxBuffers = 2;
+            videosink.MaxBuffers = 1;
             videosink.EmitSignals = true;
+            videosink.NewPreroll += Videosink_NewPreroll;
+            videosink.NewSample += Videosink_NewSample;
 
             playbin["video-sink"] = videosink;
             playbin["audio-sink"] = audiosink;
 
-            var eosSignals = Observable.FromEventPattern<System.EventArgs>(videosink, nameof(AppSink.Eos));
+            var eosSignals = Observable.FromEventPattern<EventArgs>(videosink, nameof(AppSink.Eos));
             var newPrerolls = Observable.FromEventPattern<NewPrerollArgs>(videosink, nameof(AppSink.NewPreroll));
             var newSamples = Observable.FromEventPattern<NewSampleArgs>(videosink, nameof(AppSink.NewSample));
-            videoFrames = newSamples.Select(a => videosink.PullSample())
-                .Where(s => s != null)
-                .Select(s => ResourceProvider.New(() => new Image(s))
-                    // The frame is read-only so share it in parallel until a new sample arrives or an EOS is received
-                    .ShareInParallel(Observable.Merge<object>(newSamples.Skip(1), newPrerolls, eosSignals)))
-                // Keep a single subscription
-                .Publish().RefCount();
+            disposalTrigger = Observable.Merge<object>(eosSignals, newPrerolls.Skip(1), newSamples.Skip(1));
+        }
+
+        public void Dispose()
+        {
+            videosink.NewPreroll -= Videosink_NewPreroll;
+            videosink.NewSample -= Videosink_NewSample;
+            videosink.Dispose();
+            audiosink.Dispose();
+            videoFrames.Dispose();
+            bus.Message -= Bus_Message;
+            bus.RemoveSignalWatch();
+            bus.Dispose();
+            // Free resources
+            playbin.SetState(State.Null);
+            playbin.Dispose();
+        }
+
+        private void Videosink_NewPreroll(object o, NewPrerollArgs args)
+        {
+            var sample = videosink.PullPreroll();
+            PushImage(sample);
+        }
+
+        private void Videosink_NewSample(object o, NewSampleArgs args)
+        {
+            var sample = videosink.PullSample();
+            PushImage(sample);
+        }
+
+        private void PushImage(Sample sample)
+        {
+            if (videoFrames.HasObservers)
+            {
+                var imageProvider = CreateImageProvider(sample);
+                videoFrames.OnNext(imageProvider);
+            }
+            else
+                sample.Dispose();
+        }
+
+        private IResourceProvider<IImage> CreateImageProvider(Sample sample)
+        {
+            if (sample != null)
+                return ResourceProvider.Return(new Image(sample), s => s.Dispose())
+                    .ShareInParallel(disposalTrigger)
+                    .Where(i => !i.IsDisposed);
+            return ResourceProvider.Return(ImageExtensions.Default);
         }
 
         private void Bus_Message(object o, MessageArgs args)
         {
             var msg = args.Message;
-            Trace.TraceInformation($"{msg.Type}: {msg}");
+            //Trace.TraceInformation($"{msg.Type}: {msg}");
             switch (msg.Type)
             {
                 case MessageType.Unknown:
@@ -124,6 +180,7 @@ namespace VL.Lib.GStreamer
                 case MessageType.AsyncStart:
                     break;
                 case MessageType.AsyncDone:
+                    FSeeking = false;
                     break;
                 case MessageType.RequestState:
                     break;
@@ -194,24 +251,6 @@ namespace VL.Lib.GStreamer
                 videosink.Caps = Caps.FromString($"video/x-raw, format={format}");
             }
 
-            if (seekTime != FSeekTime)
-            {
-                FSeekTime = seekTime;
-                playbin.SeekSimple(Format.Time, SeekFlags.Flush | SeekFlags.KeyUnit, (long)(seekTime * Gst.Constants.SECOND));
-                //using (var query = Query.NewSeeking(Format.Time))
-                //{
-                //    if (playbin.Query(query))
-                //    {
-                //        Format f;
-                //        bool seekable;
-                //        long segmentStart, segmentEnd;
-                //        query.ParseSeeking(out f, out seekable, out segmentStart, out segmentEnd);
-                //        if (seekable)
-                //            playbin.SeekSimple(Format.Time, SeekFlags.Flush | SeekFlags.KeyUnit, (long)(seekTime * Gst.Constants.SECOND));
-                //    }
-                //}
-            }
-
             if (play != FPlay)
             {
                 FPlay = play;
@@ -221,19 +260,43 @@ namespace VL.Lib.GStreamer
                     playbin.SetState(State.Paused);
             }
 
+            if (seekTime != FSeekTime)
+            {
+                if (!FSeeking)
+                {
+                    FSeeking = true;
+                    // Seek call can be rather expensive so put to background
+                    System.Threading.Tasks.Task.Run(() =>
+                    {
+                        if (playbin.SeekSimple(Format.Time, SeekFlags.Flush, (long)(seekTime * Gst.Constants.SECOND)))
+                        {
+                            FSeeking = true;
+                            FSeekTime = seekTime;
+                        }
+                        else
+                            FSeeking = false;
+                    });
+                }
+            }
+
             state = FState;
-            long p, q;
             if (state >= State.Paused)
             {
-                playbin.QueryPosition(Format.Time, out p);
-                position = p / Gst.Constants.SECOND;
+                if (!FSeeking)
+                {
+                    long p;
+                    playbin.QueryPosition(Format.Time, out p);
+                    FPosition = ((float)p) / Gst.Constants.SECOND;
+                }
 
                 if (FDuration == -1)
                 {
+                    long q;
                     playbin.QueryDuration(Format.Time, out q);
-                    FDuration = q / Gst.Constants.SECOND;
+                    FDuration = ((float)q) / Gst.Constants.SECOND;
                 }
 
+                position = FPosition;
                 duration = FDuration;
             }
             else
@@ -254,17 +317,6 @@ namespace VL.Lib.GStreamer
             //    }
             //}
             //return ResourceProvider.Return(VideoFrame.Empty);
-        }
-
-        public void Dispose()
-        {
-            // Free resources
-            playbin.SetState(State.Null);
-            videosink.Dispose();
-            audiosink.Dispose();
-            using (var bus = playbin.Bus)
-                bus.Message -= Bus_Message;
-            playbin.Dispose();
         }
     }
 }

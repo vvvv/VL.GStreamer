@@ -1,5 +1,6 @@
 ﻿using Gst;
 using System;
+using System.Threading;
 using VL.Lib.Basics.Imaging;
 
 namespace VL.Lib.GStreamer
@@ -30,8 +31,8 @@ namespace VL.Lib.GStreamer
             }
         }
 
-        readonly Sample FSample;
         readonly Gst.Buffer FBuffer;
+        Sample FSample;
 
         public Image(Sample sample)
             : base()
@@ -50,11 +51,16 @@ namespace VL.Lib.GStreamer
         }
 
         public ImageInfo Info { get; }
+        public bool IsDisposed => FSample == null;
 
         public void Dispose()
         {
-            FBuffer.Dispose();
-            FSample.Dispose();
+            var sample = Interlocked.CompareExchange(ref FSample, null, FSample);
+            if (sample != null)
+            {
+                FBuffer.Dispose();
+                sample.Dispose();
+            }
         }
 
         public IImageData GetData() => new Data(FBuffer, Info.ScanSize);
