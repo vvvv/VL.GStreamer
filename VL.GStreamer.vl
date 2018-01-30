@@ -47,7 +47,7 @@
                 <Choice Kind="OperationDefinition" Name="Operation" />
                 <FullNameCategoryReference ID="Primitive" />
               </p:NodeReference>
-              <Patch Id="JeSik1KRqE1MkVcxkUWIaH">
+              <Patch Id="JeSik1KRqE1MkVcxkUWIaH" ManuallySortedPins="true">
                 <Node Bounds="368,329,85,22" AutoConnect="true" Id="VJsk91CHLXFMwLPnBhhgLc">
                   <p:NodeReference LastCategoryFullName="VL.Lib.GStreamer.Player" LastSymbolSource="VL.GStreamer.dll">
                     <Choice Kind="OperationNode" Name="Update" />
@@ -56,22 +56,24 @@
                   <Pin Id="JakeXBXoXQ1QRw31swtjSW" Name="Input" Kind="StateInputPin" />
                   <Pin Id="LZ8R0e7lKLzN76uyHAz4T2" Name="Uri" Kind="InputPin" />
                   <Pin Id="T3JDN2lJ0euPp2cfAUtHIr" Name="Format" Kind="InputPin" />
-                  <Pin Id="BIu16s3FcpoLL6gBBK91QN" Name="Seek Time" Kind="InputPin" />
                   <Pin Id="MWYYf9Dvio9PYDDGnbpuzw" Name="Play" Kind="InputPin" />
+                  <Pin Id="B27xXelnDwKLUa6IWycCxt" Name="Seek" Kind="InputPin" />
+                  <Pin Id="BIu16s3FcpoLL6gBBK91QN" Name="Seek Time" Kind="InputPin" />
                   <Pin Id="HLD77dLNyfVMUAepsJwtHc" Name="Output" Kind="StateOutputPin" />
                   <Pin Id="G4ak9bRgsfrMzMXrxE4wP9" Name="State" Kind="OutputPin" />
                   <Pin Id="VGnIsae9wPxOceFZwki4wZ" Name="Position" Kind="OutputPin" />
                   <Pin Id="HACULX2wIFwOQHYcvFCAeb" Name="Duration" Kind="OutputPin" />
                 </Node>
-                <Pin Id="Fg8X0FOVBI8PIasYKSBK8y" Name="Input" Kind="InputPin" />
-                <Pin Id="EgfMWrfuQ3YMwthrct5G8M" Name="Uri" Kind="InputPin" />
-                <Pin Id="K2yCuij9k6kOzFZt0hVY1T" Name="Format" Kind="InputPin" />
-                <Pin Id="V2FHSw2KeoLLPQ1X9LbmWp" Name="Seek Time" Kind="InputPin" />
-                <Pin Id="EJx7vYyGfKrMAdeLIZzEIk" Name="Play" Kind="InputPin" />
-                <Pin Id="LaW3h1msZ84QdZYLzuiqDn" Name="Output" Kind="OutputPin" />
-                <Pin Id="HUJctsRPyJAOILybAcMabj" Name="State" Kind="OutputPin" />
-                <Pin Id="RWub9kXAU7CLXHlskvHlFs" Name="Position" Kind="OutputPin" />
-                <Pin Id="FHFiCAOqHlgP1VOawQd3Hj" Name="Duration" Kind="OutputPin" />
+                <Pin Id="Fg8X0FOVBI8PIasYKSBK8y" Name="Input" Kind="InputPin" Bounds="4,4" />
+                <Pin Id="EgfMWrfuQ3YMwthrct5G8M" Name="Uri" Kind="InputPin" Bounds="39,4" />
+                <Pin Id="EJx7vYyGfKrMAdeLIZzEIk" Name="Play" Kind="InputPin" Bounds="65,4" />
+                <Pin Id="HETJ5Za34DjPuX8qlp27Py" Name="Seek" Kind="InputPin" Bounds="95,4" />
+                <Pin Id="V2FHSw2KeoLLPQ1X9LbmWp" Name="Seek Time" Kind="InputPin" Bounds="126,4" />
+                <Pin Id="K2yCuij9k6kOzFZt0hVY1T" Name="Format" Kind="InputPin" Bounds="183,4" />
+                <Pin Id="LaW3h1msZ84QdZYLzuiqDn" Name="Output" Kind="OutputPin" Bounds="4,19" />
+                <Pin Id="HUJctsRPyJAOILybAcMabj" Name="State" Kind="OutputPin" Bounds="46,19" />
+                <Pin Id="RWub9kXAU7CLXHlskvHlFs" Name="Position" Kind="OutputPin" Bounds="80,19" />
+                <Pin Id="FHFiCAOqHlgP1VOawQd3Hj" Name="Duration" Kind="OutputPin" Bounds="126,19" />
               </Patch>
             </Node>
             <!--

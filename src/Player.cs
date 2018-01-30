@@ -31,7 +31,7 @@ namespace VL.Lib.GStreamer
                 context.RunIteration(may_block: true);
         }
 
-        readonly Subject<IResourceProvider<IImage>> videoFrames = new Subject<IResourceProvider<IImage>>();
+        readonly Subject<IImage> videoFrames = new Subject<IImage>();
         readonly IObservable<object> disposalTrigger;
         readonly Pipeline playbin;
         readonly Bus bus;
@@ -40,7 +40,6 @@ namespace VL.Lib.GStreamer
 
         string FUri;
         string FFormat;
-        float FSeekTime;
         bool FSeeking;
         bool FPlay;
         float FPosition, FDuration = -1f;
@@ -60,7 +59,7 @@ namespace VL.Lib.GStreamer
             if (playbin == null || videosink == null || audiosink == null)
                 throw new Exception("Not all elements could be created");
 
-            videosink.Sync = false;
+            videosink.Sync = true;
             videosink.Qos = false;
             videosink.Drop = false;
             videosink.Caps = Caps.FromString("video/x-raw, format=BGRx");
@@ -95,34 +94,20 @@ namespace VL.Lib.GStreamer
 
         private void Videosink_NewPreroll(object o, NewPrerollArgs args)
         {
-            var sample = videosink.PullPreroll();
-            PushImage(sample);
+            using (var sample = videosink.PullPreroll())
+                PushImage(sample);
         }
 
         private void Videosink_NewSample(object o, NewSampleArgs args)
         {
-            var sample = videosink.PullSample();
-            PushImage(sample);
+            using (var sample = videosink.PullSample())
+                PushImage(sample);
         }
 
         private void PushImage(Sample sample)
         {
-            if (videoFrames.HasObservers)
-            {
-                var imageProvider = CreateImageProvider(sample);
-                videoFrames.OnNext(imageProvider);
-            }
-            else
-                sample.Dispose();
-        }
-
-        private IResourceProvider<IImage> CreateImageProvider(Sample sample)
-        {
             if (sample != null)
-                return ResourceProvider.Return(new Image(sample), s => s.Dispose())
-                    .ShareInParallel(disposalTrigger)
-                    .Where(i => !i.IsDisposed);
-            return ResourceProvider.Return(ImageExtensions.Default);
+                videoFrames.OnNext(new Image(sample));
         }
 
         private void Bus_Message(object o, MessageArgs args)
@@ -221,7 +206,7 @@ namespace VL.Lib.GStreamer
             }
         }
 
-        public IObservable<IResourceProvider<IImage>> VideoFrames => videoFrames;
+        public IObservable<IImage> VideoFrames => videoFrames;
         public IObservable<System.IO.Stream> AudioFrames { get; } = Observable.Empty<System.IO.Stream>();
 
         public void Update(
@@ -230,8 +215,9 @@ namespace VL.Lib.GStreamer
             out float duration,
             string uri = "http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4", 
             string format = "BGRx", 
-            float seekTime = 0,
-            bool play = false)
+            bool play = false,
+            bool seek = false,
+            float seekTime = 0)
         {
             if (!Util.UriIsValid(uri))
             {
@@ -249,6 +235,9 @@ namespace VL.Lib.GStreamer
             {
                 FFormat = format;
                 videosink.Caps = Caps.FromString($"video/x-raw, format={format}");
+                var currentState = FState;
+                playbin.SetState(State.Null);
+                playbin.SetState(currentState);
             }
 
             if (play != FPlay)
@@ -260,23 +249,19 @@ namespace VL.Lib.GStreamer
                     playbin.SetState(State.Paused);
             }
 
-            if (seekTime != FSeekTime)
+            if (seek && !FSeeking)
             {
-                if (!FSeeking)
+                FSeeking = true;
+                // Seek call can be rather expensive so put to background
+                System.Threading.Tasks.Task.Run(() =>
                 {
-                    FSeeking = true;
-                    // Seek call can be rather expensive so put to background
-                    System.Threading.Tasks.Task.Run(() =>
+                    if (playbin.SeekSimple(Format.Time, SeekFlags.Flush, (long)(seekTime * Gst.Constants.SECOND)))
                     {
-                        if (playbin.SeekSimple(Format.Time, SeekFlags.Flush, (long)(seekTime * Gst.Constants.SECOND)))
-                        {
-                            FSeeking = true;
-                            FSeekTime = seekTime;
-                        }
-                        else
-                            FSeeking = false;
-                    });
-                }
+                        FSeeking = true;
+                    }
+                    else
+                        FSeeking = false;
+                });
             }
 
             state = FState;

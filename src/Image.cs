@@ -32,7 +32,7 @@ namespace VL.Lib.GStreamer
         }
 
         readonly Gst.Buffer FBuffer;
-        Sample FSample;
+        readonly Sample FSample;
 
         public Image(Sample sample)
             : base()
@@ -45,22 +45,17 @@ namespace VL.Lib.GStreamer
                 int width, height;
                 structure.GetInt("width", out width);
                 structure.GetInt("height", out height);
-                Info = new ImageInfo(width, height, PixelFormat.X8R8G8B8);
+                Info = new ImageInfo(width, height, PixelFormat.B8G8R8X8);
             }
-            
         }
 
         public ImageInfo Info { get; }
         public bool IsDisposed => FSample == null;
+        public bool IsVolatile => true;
 
         public void Dispose()
         {
-            var sample = Interlocked.CompareExchange(ref FSample, null, FSample);
-            if (sample != null)
-            {
-                FBuffer.Dispose();
-                sample.Dispose();
-            }
+            FBuffer.Dispose();
         }
 
         public IImageData GetData() => new Data(FBuffer, Info.ScanSize);
