@@ -1,14 +1,10 @@
 ﻿using Gst;
 using Gst.App;
 using System;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Runtime.InteropServices;
 using VL.Lib.Basics.Imaging;
-using VL.Lib.Basics.Resources;
 
 namespace VL.Lib.GStreamer
 {
@@ -33,7 +29,6 @@ namespace VL.Lib.GStreamer
         }
 
         readonly Subject<IImage> videoFrames = new Subject<IImage>();
-        readonly IObservable<object> disposalTrigger;
         readonly Pipeline playbin;
         readonly Bus bus;
         readonly AppSink videosink;
@@ -71,11 +66,6 @@ namespace VL.Lib.GStreamer
 
             playbin["video-sink"] = videosink;
             playbin["audio-sink"] = audiosink;
-
-            var eosSignals = Observable.FromEventPattern<EventArgs>(videosink, nameof(AppSink.Eos));
-            var newPrerolls = Observable.FromEventPattern<NewPrerollArgs>(videosink, nameof(AppSink.NewPreroll));
-            var newSamples = Observable.FromEventPattern<NewSampleArgs>(videosink, nameof(AppSink.NewSample));
-            disposalTrigger = Observable.Merge<object>(eosSignals, newPrerolls.Skip(1), newSamples.Skip(1));
         }
 
         public void Dispose()
