@@ -7,7 +7,7 @@
     ************************ Player ************************
 
 -->
-      <Node Name="Player" Bounds="256,168" Id="SOZCnFXRwjEMeC4sLpgj3U">
+      <Node Name="Player" Bounds="312,182" Id="VHRiQqpSaEsOCAB1XPCXNt">
         <p:NodeReference>
           <Choice Kind="ForwardDefinition" Name="Forward" />
           <FullNameCategoryReference ID="Primitive" />
@@ -15,26 +15,28 @@
         <p:TypeAnnotation LastCategoryFullName="VL.Lib.GStreamer" LastSymbolSource="VL.GStreamer.dll">
           <Choice Kind="TypeFlag" Name="Player" />
         </p:TypeAnnotation>
-        <Patch Id="GczKe3wK6dKQTqR8eODBBe">
-          <Canvas Id="HRn9EcuBBrGLWDkXEpeNSy">
+        <Patch Id="M2BMMN70gFpOoFlOOq7p3o">
+          <Canvas Id="VnEJuL5po43NCdQmUAuQpX">
             <!--
 
     ************************ Create ************************
 
 -->
-            <Node Name="Create" Bounds="376,198,100,50" Id="R2Tg762niEnPBBwg3L1uwb">
+            <Node Name="Create" Bounds="376,198,100,50" Id="BYs1Fmuj8jTNi1gBXiQzo0">
               <p:NodeReference>
                 <Choice Kind="OperationDefinition" Name="Operation" />
                 <FullNameCategoryReference ID="Primitive" />
               </p:NodeReference>
-              <Patch Id="UgVX4RUXYlFMR2vLxC09iO">
-                <Node Bounds="376,198,10,10" AutoConnect="true" Id="BITxRNwZUnnOSb2gLzYGo9">
+              <Patch Id="VSBLXOrvJiuLIjVZIoBJlE">
+                <Node Bounds="376,198,10,10" AutoConnect="true" Id="IWBmXoCCjk1LkXS9BDcKcM">
                   <p:NodeReference LastCategoryFullName="VL.Lib.GStreamer.Player" LastSymbolSource="VL.GStreamer.dll">
                     <Choice Kind="OperationNode" Name="Create" />
                     <FullNameCategoryReference ID="VL.Lib.GStreamer.Player" />
                   </p:NodeReference>
-                  <Pin Id="Cf1tRjQm5RYNgEfPFtQXqO" Name="Output" Kind="StateOutputPin" />
+                  <Pin Id="OVbvvWi1hgRLHxJZLpuJQZ" Name="Output" Kind="StateOutputPin" />
+                  <Pin Id="NoacaG7EBxPOln6ehfuoSM" Name="Format" Kind="InputPin" />
                 </Node>
+                <Pin Id="P1g6lQV9CfROCnHLn40url" Name="Format" Kind="InputPin" />
               </Patch>
             </Node>
             <!--
@@ -42,38 +44,36 @@
     ************************ Update ************************
 
 -->
-            <Node Name="Update" Bounds="356,299,112,80" Id="CthrA1zwALOMS7c5Rle3A7">
+            <Node Name="Update" Bounds="356,299,112,80" Id="VchXGlKSsdaLS13MS2dKPT">
               <p:NodeReference>
                 <Choice Kind="OperationDefinition" Name="Operation" />
                 <FullNameCategoryReference ID="Primitive" />
               </p:NodeReference>
-              <Patch Id="JeSik1KRqE1MkVcxkUWIaH" ManuallySortedPins="true">
-                <Node Bounds="368,329,85,22" AutoConnect="true" Id="VJsk91CHLXFMwLPnBhhgLc">
+              <Patch Id="SlxCIC2UVGCOlsHFsJwjm4" ManuallySortedPins="true">
+                <Node Bounds="368,329,85,22" AutoConnect="true" Id="Fx9YnrGapfwQP87FRFFVMD">
                   <p:NodeReference LastCategoryFullName="VL.Lib.GStreamer.Player" LastSymbolSource="VL.GStreamer.dll">
                     <Choice Kind="OperationNode" Name="Update" />
                     <FullNameCategoryReference ID="VL.Lib.GStreamer.Player" />
                   </p:NodeReference>
-                  <Pin Id="JakeXBXoXQ1QRw31swtjSW" Name="Input" Kind="StateInputPin" />
-                  <Pin Id="LZ8R0e7lKLzN76uyHAz4T2" Name="Uri" Kind="InputPin" />
-                  <Pin Id="T3JDN2lJ0euPp2cfAUtHIr" Name="Format" Kind="InputPin" />
-                  <Pin Id="MWYYf9Dvio9PYDDGnbpuzw" Name="Play" Kind="InputPin" />
-                  <Pin Id="B27xXelnDwKLUa6IWycCxt" Name="Seek" Kind="InputPin" />
-                  <Pin Id="BIu16s3FcpoLL6gBBK91QN" Name="Seek Time" Kind="InputPin" />
-                  <Pin Id="HLD77dLNyfVMUAepsJwtHc" Name="Output" Kind="StateOutputPin" />
-                  <Pin Id="G4ak9bRgsfrMzMXrxE4wP9" Name="State" Kind="OutputPin" />
-                  <Pin Id="VGnIsae9wPxOceFZwki4wZ" Name="Position" Kind="OutputPin" />
-                  <Pin Id="HACULX2wIFwOQHYcvFCAeb" Name="Duration" Kind="OutputPin" />
+                  <Pin Id="ShqnOAJVDquPPYDZIMWFdH" Name="Input" Kind="StateInputPin" />
+                  <Pin Id="BgOWnmpfqQvPSii8APMyrm" Name="Uri" Kind="InputPin" />
+                  <Pin Id="S2rSBffczMhO01Q6AYg59z" Name="Play" Kind="InputPin" />
+                  <Pin Id="L9X8KoURxFTMBi7JMde8TJ" Name="Seek" Kind="InputPin" />
+                  <Pin Id="CFj7G9ufr7OPX91DIRaNHx" Name="Seek Time" Kind="InputPin" />
+                  <Pin Id="NhZ1eWJqol3ODmNUwqosJq" Name="Output" Kind="StateOutputPin" />
+                  <Pin Id="GVhuom2wv7lNDJljfKzJYZ" Name="State" Kind="OutputPin" />
+                  <Pin Id="L1W3DU7FkrNO9dNLR3OXmG" Name="Position" Kind="OutputPin" />
+                  <Pin Id="JM30eMQ5iriPqGdoQ6a0w9" Name="Duration" Kind="OutputPin" />
                 </Node>
-                <Pin Id="Fg8X0FOVBI8PIasYKSBK8y" Name="Input" Kind="InputPin" Bounds="4,4" />
-                <Pin Id="EgfMWrfuQ3YMwthrct5G8M" Name="Uri" Kind="InputPin" Bounds="39,4" />
-                <Pin Id="EJx7vYyGfKrMAdeLIZzEIk" Name="Play" Kind="InputPin" Bounds="65,4" />
-                <Pin Id="HETJ5Za34DjPuX8qlp27Py" Name="Seek" Kind="InputPin" Bounds="95,4" />
-                <Pin Id="V2FHSw2KeoLLPQ1X9LbmWp" Name="Seek Time" Kind="InputPin" Bounds="126,4" />
-                <Pin Id="K2yCuij9k6kOzFZt0hVY1T" Name="Format" Kind="InputPin" Bounds="183,4" />
-                <Pin Id="LaW3h1msZ84QdZYLzuiqDn" Name="Output" Kind="OutputPin" Bounds="4,19" />
-                <Pin Id="HUJctsRPyJAOILybAcMabj" Name="State" Kind="OutputPin" Bounds="46,19" />
-                <Pin Id="RWub9kXAU7CLXHlskvHlFs" Name="Position" Kind="OutputPin" Bounds="80,19" />
-                <Pin Id="FHFiCAOqHlgP1VOawQd3Hj" Name="Duration" Kind="OutputPin" Bounds="126,19" />
+                <Pin Id="IxU43DGwBtgPupWJdk9xD3" Name="Input" Kind="InputPin" Bounds="4,4" />
+                <Pin Id="Aq3kRdhmc7SNuHuNDBUvyw" Name="Uri" Kind="InputPin" Bounds="39,4" />
+                <Pin Id="PkzvWmA9KoWP02dgeZeOhV" Name="Play" Kind="InputPin" Bounds="65,4" />
+                <Pin Id="GR7LyWEMtvQPvejjg9Vldo" Name="Seek" Kind="InputPin" Bounds="95,4" />
+                <Pin Id="EiJNmka6maSOiphreAoJD6" Name="Seek Time" Kind="InputPin" Bounds="126,4" />
+                <Pin Id="DK0W8p0bd3yP9bfMJmLknJ" Name="Output" Kind="OutputPin" Bounds="4,19" />
+                <Pin Id="C2TERsfkJKlLSYis2Wmyda" Name="State" Kind="OutputPin" Bounds="46,19" />
+                <Pin Id="D9LVRl7osYxQNurLEeWuDB" Name="Position" Kind="OutputPin" Bounds="80,19" />
+                <Pin Id="EdduupxXtQBOIqMPytFJj8" Name="Duration" Kind="OutputPin" Bounds="126,19" />
               </Patch>
             </Node>
             <!--
@@ -81,31 +81,31 @@
     ************************ VideoFrames ************************
 
 -->
-            <Node Name="VideoFrames" Bounds="360,444,112,85" Id="BxPVZtVgRXILNJCEhXUTQ8">
+            <Node Name="VideoFrames" Bounds="360,444,112,85" Id="EPWK3w9fupNLO8OIUFavWx">
               <p:NodeReference>
                 <Choice Kind="OperationDefinition" Name="Operation" />
                 <FullNameCategoryReference ID="Primitive" />
               </p:NodeReference>
-              <Patch Id="CxmMTe3X4n7PMcgwRKhxoO">
-                <Node Bounds="372,479,69,22" AutoConnect="true" Id="IlplrrlIIhzPcZgmusQIXB">
+              <Patch Id="BPp8Abw18JzOOTj5sjvp2y">
+                <Node Bounds="372,479,69,22" AutoConnect="true" Id="OriSmXSWCdpOvGb28b9RJB">
                   <p:NodeReference LastCategoryFullName="VL.Lib.GStreamer.Player" LastSymbolSource="VL.GStreamer.dll">
                     <Choice Kind="OperationNode" Name="VideoFrames" />
                     <FullNameCategoryReference ID="VL.Lib.GStreamer.Player" />
                   </p:NodeReference>
-                  <Pin Id="TPcOaSd2VfKMLnmPuwBc5F" Name="Input" Kind="StateInputPin" />
-                  <Pin Id="UCH7owf3TqeP8ASZdECVRf" Name="Output" Kind="StateOutputPin" />
-                  <Pin Id="CA294yao581OzxdasfpRlW" Name="Video Frames" Kind="OutputPin" />
+                  <Pin Id="I0UxtwrnjSkMKlYjxXn2Vy" Name="Input" Kind="StateInputPin" />
+                  <Pin Id="Onv2P1lB4pQPjAOep8PtGM" Name="Output" Kind="StateOutputPin" />
+                  <Pin Id="VdC2YwnBqAyMNnQ5yst9Tg" Name="Video Frames" Kind="OutputPin" />
                 </Node>
-                <Pin Id="B8yHgJQ45LYMWBVGSDL0S8" Name="Input" Kind="InputPin" />
-                <Pin Id="QfhI4WFy03mQQLAJ4WnqSJ" Name="Output" Kind="OutputPin" />
-                <Pin Id="VY046zCp2B2NhZPaLAiP6o" Name="Video Frames" Kind="OutputPin" />
+                <Pin Id="L4zaM5wFOaGPt9oApjFwkE" Name="Input" Kind="InputPin" />
+                <Pin Id="IUIJIcGhJgOOoGkmNrvEI7" Name="Output" Kind="OutputPin" />
+                <Pin Id="VVxsuGdW0GkPHvYM6RHAyn" Name="Video Frames" Kind="OutputPin" />
               </Patch>
             </Node>
           </Canvas>
-          <ProcessDefinition Id="Gt27X3XEErcPf7NvhdL8ta">
-            <Fragment Id="VFojE3LYgyhOjVFvYXwKv9" Patch="R2Tg762niEnPBBwg3L1uwb" Enabled="true" />
-            <Fragment Id="IF6vRuXbGOxQUqLaju3DtI" Patch="CthrA1zwALOMS7c5Rle3A7" Enabled="true" />
-            <Fragment Id="GoikC3Zq87oPSe4QiPsaqc" Patch="BxPVZtVgRXILNJCEhXUTQ8" Enabled="true" />
+          <ProcessDefinition Id="VXo6dw4Rh8BMBCyUuXuaNJ">
+            <Fragment Id="Cx7ZKjVC5a3M7uQ3BgRPMk" Patch="BYs1Fmuj8jTNi1gBXiQzo0" Enabled="true" />
+            <Fragment Id="QdJBsxVSJxiLPVHluOBPbn" Patch="VchXGlKSsdaLS13MS2dKPT" Enabled="true" />
+            <Fragment Id="Ce5DbS6YGaBNzieth5QHoy" Patch="EPWK3w9fupNLO8OIUFavWx" Enabled="true" />
           </ProcessDefinition>
         </Patch>
       </Node>
@@ -116,4 +116,5 @@
   <NugetDependency Id="T1SwfXqRm4vOpF9QEGDpmC" Location="VL.CoreLib.VVVV" Version="0.73.60-g216609aa5b" />
   <NugetDependency Id="F7IuS2sogzuLb5Sn4QriJ3" Location="GstSharp" Version="1.13.0.1" />
   <PlatformDependency Id="VxPqZeBOTw4MxvZ2D7OM6g" Location="./lib/net461/VL.GStreamer.dll" />
+  <NugetDependency Id="V0K6M1IYLUrLKLzSsv1loc" Location="VL.CoreLib.Experimental" Version="0.74.11-gba142e66e7" />
 </Document>

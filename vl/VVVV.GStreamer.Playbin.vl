@@ -26,32 +26,15 @@
             <Pin Id="O0F3h4symC8QAe13oOEjQp" Name="Seek" Kind="InputPin" Bounds="364,141" />
           </Patch>
           <Canvas Id="C4yd3S6BFv9NWqJ2WO3OFi">
-            <Pad Id="Agp6p2ZFq4qLnygy5qKawZ" Bounds="394,90,222,17" ShowValueBox="true" Value="&quot;For getting started, see:&quot;">
-              <p:ValueBoxSettings>
-                <p:fontsize p:Type="Int32">13</p:fontsize>
-                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
-              </p:ValueBoxSettings>
-              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="VL.CoreLib.vl">
-                <Choice Kind="TypeFlag" Name="String" />
-                <CategoryReference Kind="Category" Name="Primitive" />
-              </p:TypeAnnotation>
-            </Pad>
-            <Pad Id="O4Rbhs23ekpP1bPxi2C7IH" Bounds="394,124,350,13" ShowValueBox="true" Value="&quot;https://vvvv.org/documentation/dynamic-vl-plugin-reference&quot;">
-              <p:ValueBoxSettings>
-                <p:fontsize p:Type="Int32">8</p:fontsize>
-                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
-                <p:showvalue p:Type="Boolean">true</p:showvalue>
-              </p:ValueBoxSettings>
-              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="VL.CoreLib.vl">
-                <Choice Kind="TypeFlag" Name="String" />
-                <CategoryReference Kind="Category" Name="Primitive" />
-              </p:TypeAnnotation>
-            </Pad>
             <Node Bounds="262,245,65,13" Id="HUNQQZw5R1dPr8hbqR42PJ">
               <p:NodeReference LastCategoryFullName="GStreamer" LastSymbolSource="VL.GStreamer.vl" LastDependency="VVVV.GStreamer.Playbin.vl">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="ProcessAppFlag" Name="Player" />
+                <CategoryReference Kind="Category" Name="GStreamer" NeedsToBeDirectParent="true">
+                  <p:OuterCategoryReference Kind="Category" NeedsToBeDirectParent="true" />
+                </CategoryReference>
               </p:NodeReference>
+              <Pin Id="FRADj5p36J5L1mLL0ifEbF" Name="Format" Kind="InputPin" />
               <Pin Id="Lh8MvmF1qIAP39jmmajSao" Name="Uri" Kind="InputPin" />
               <Pin Id="MwgvxZUf9agOtYrxmUVTHg" Name="Play" Kind="InputPin" />
               <Pin Id="GYLHVa776xvNzhoCiK08b8" Name="Seek" Kind="InputPin" />
@@ -60,7 +43,6 @@
                   <Choice Kind="TypeFlag" Name="Float32" />
                 </p:TypeAnnotation>
               </Pin>
-              <Pin Id="FRADj5p36J5L1mLL0ifEbF" Name="Format" Kind="InputPin" />
               <Pin Id="IhY14jCLJmLOy7Bx1iFHqa" Name="State" Kind="OutputPin" />
               <Pin Id="D2HnEXd8MCNOG4WzbuoWvy" Name="Position" Kind="OutputPin" />
               <Pin Id="NJwxOWpCglQNZPSdbRDQd8" Name="Duration" Kind="OutputPin" />
@@ -69,17 +51,17 @@
             <Pad Id="VgevmXXSPUsLWOaDUtSCjP" Comment="Duration" Bounds="312,328,34,18" ShowValueBox="true" isIOBox="true" />
             <Pad Id="VPpggyfpzdUMWpBGvXh4hq" Comment="Position" Bounds="279,365,34,18" ShowValueBox="true" isIOBox="true" />
             <Pad Id="V27bVLZ6rjIN6ic96Wpg9j" Comment="State" Bounds="116,338,82,18" ShowValueBox="true" isIOBox="true" />
-            <ControlPoint Id="PmLYCDWim6vLx0uhsGDQAW" Bounds="238,132" />
-            <ControlPoint Id="Iv9alExLytnOyAAb4gYx9S" Bounds="179,138" />
-            <ControlPoint Id="VAjDf5LeUVGN7KO5nZ3MiM" Bounds="332,136" />
+            <ControlPoint Id="PmLYCDWim6vLx0uhsGDQAW" Bounds="351,139" />
+            <ControlPoint Id="Iv9alExLytnOyAAb4gYx9S" Bounds="292,145" />
+            <ControlPoint Id="VAjDf5LeUVGN7KO5nZ3MiM" Bounds="445,143" />
             <ControlPoint Id="J6OqPNiwoozL0aLBKBj4qu" Bounds="390,498" />
             <ControlPoint Id="JgjW0NwflNiOVq0jSIWteB" Bounds="232,498" />
-            <Pad Id="GNfEj4occGGPq5k676xKj9" Comment="Format" Bounds="373,184,31,18" ShowValueBox="true" isIOBox="true" Value="&quot;BGRx&quot;">
-              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="VL.CoreLib.vl">
-                <Choice Kind="TypeFlag" Name="String" />
+            <ControlPoint Id="FSOEA8NUxHmQOy41m7Hkov" Bounds="391,138" />
+            <Pad Id="AhPTE6N2sNLQIYhA2Mnsbb" Comment="Format" Bounds="162,190,78,18" ShowValueBox="true" isIOBox="true" Value="&quot;Bgrx&quot;">
+              <p:TypeAnnotation LastCategoryFullName="Gst.Video" LastSymbolSource="gstreamer-sharp.dll">
+                <Choice Kind="TypeFlag" Name="VideoFormat" />
               </p:TypeAnnotation>
             </Pad>
-            <ControlPoint Id="FSOEA8NUxHmQOy41m7Hkov" Bounds="278,131" />
           </Canvas>
           <ProcessDefinition Id="FHNLl8GWgcVOJzRkkPI83E">
             <Fragment Id="MRFnVwHDf0WOO7H3jKbCxI" Patch="ESJZDDS0I02LAWDOx9RJVV" Enabled="true" />
@@ -98,9 +80,9 @@
           <Link Id="HrgyaRrZAYoQRSuH2a8i7R" Ids="J6OqPNiwoozL0aLBKBj4qu,AZEy6YBpE5hMIJTfipF7P5" IsHidden="true" />
           <Link Id="UB0CqkJs0RnLSGOinxpfHg" Ids="D2HnEXd8MCNOG4WzbuoWvy,JgjW0NwflNiOVq0jSIWteB" />
           <Link Id="GqBDpAMDpmPP3K4XgmjVk4" Ids="JgjW0NwflNiOVq0jSIWteB,B02U2zfYqmhOpXINnyqOFP" IsHidden="true" />
-          <Link Id="CYZ1hbiUCu3NUec6SSxd0n" Ids="GNfEj4occGGPq5k676xKj9,FRADj5p36J5L1mLL0ifEbF" />
           <Link Id="KEgcHMxVTiZLM7zLJsVCQA" Ids="FSOEA8NUxHmQOy41m7Hkov,GYLHVa776xvNzhoCiK08b8" />
           <Link Id="LLgzNwy7gb1MvBogOTTOW5" Ids="O0F3h4symC8QAe13oOEjQp,FSOEA8NUxHmQOy41m7Hkov" IsHidden="true" />
+          <Link Id="NXzHcip22ibMLOywLQGtxy" Ids="AhPTE6N2sNLQIYhA2Mnsbb,FRADj5p36J5L1mLL0ifEbF" />
         </Patch>
       </Node>
     </Canvas>

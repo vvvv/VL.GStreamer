@@ -146,30 +146,6 @@
    <PIN pinname="Descriptive Name" slicecount="1" values="Position">
    </PIN>
    </NODE>
-   <NODE id="53" systemname="Player (GStreamer)" filename="C:\Users\elias\dev\misc\VL.GStreamer\vl\VVVV.GStreamer.Playbin.vl" nodename="Playbin (GStreamer)" componentmode="Hidden" hiddenwhenlocked="0" managers="">
-   <BOUNDS type="Node" left="3969" top="1687" width="100" height="100">
-   </BOUNDS>
-   <BOUNDS type="Box" left="0" top="0" width="2240" height="1680">
-   </BOUNDS>
-   <BOUNDS type="Window" left="0" top="0" width="5600" height="4200">
-   </BOUNDS>
-   <PIN pinname="Result" visible="1">
-   </PIN>
-   <PIN pinname="Seek" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="8" srcpinname="Output String" dstnodeid="53" dstpinname="Uri">
-   </LINK>
-   <LINK srcnodeid="53" srcpinname="Stream" dstnodeid="32" dstpinname="Data">
-   </LINK>
-   <LINK srcnodeid="53" srcpinname="Stream" dstnodeid="43" dstpinname="Data">
-   </LINK>
-   <LINK srcnodeid="44" srcpinname="Y Output Value" dstnodeid="53" dstpinname="Play">
-   </LINK>
-   <LINK srcnodeid="45" srcpinname="Y Output Value" dstnodeid="53" dstpinname="Seek Time">
-   </LINK>
-   <LINK srcnodeid="53" srcpinname="Position" dstnodeid="51" dstpinname="Y Input Value">
-   </LINK>
    <LINK srcnodeid="48" srcpinname="Layer" dstnodeid="49" dstpinname="Layers">
    </LINK>
    <LINK srcnodeid="32" srcpinname="Texture Out" dstnodeid="47" dstpinname="Texture">
@@ -193,7 +169,79 @@
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" values="Seek">
    </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="0">
+   </PIN>
    </NODE>
-   <LINK srcnodeid="58" srcpinname="Y Output Value" dstnodeid="53" dstpinname="Seek">
+   <NODE systemname="Info (EX9.Texture)" nodename="Info (EX9.Texture)" componentmode="Hidden" id="59">
+   <BOUNDS type="Node" left="4067" top="3178" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Texture" visible="1">
+   </PIN>
+   <PIN pinname="Format" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="32" srcpinname="Texture Out" dstnodeid="59" dstpinname="Texture">
+   </LINK>
+   <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="60">
+   <BOUNDS type="Box" left="4858" top="3969" width="1386" height="238">
+   </BOUNDS>
+   <BOUNDS type="Node" left="4858" top="3969" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Default" slicecount="1" values="|No Specific|">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="59" srcpinname="Format" dstnodeid="60" dstpinname="Input Enum">
+   </LINK>
+   <NODE systemname="Info (DX11.Texture 2d)" filename="%VVVV%\packs\dx11\nodes\plugins\base\VVVV.DX11.Nodes.dll" nodename="Info (DX11.Texture 2d)" componentmode="Hidden" id="62">
+   <BOUNDS type="Node" left="9401" top="3080" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="9401" top="3080" width="1400" height="1400">
+   </BOUNDS>
+   <PIN pinname="Texture In" visible="1">
+   </PIN>
+   <PIN pinname="Format" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="43" srcpinname="Texture Out" dstnodeid="62" dstpinname="Texture In">
+   </LINK>
+   <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="63">
+   <BOUNDS type="Box" left="10024" top="3836" width="1596" height="238">
+   </BOUNDS>
+   <BOUNDS type="Node" left="10024" top="3836" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Default" slicecount="1" values="Unknown">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="62" srcpinname="Format" dstnodeid="63" dstpinname="Input Enum">
+   </LINK>
+   <NODE id="67" systemname="Player (GStreamer)" filename="C:\Users\elias\dev\misc\VL.GStreamer\vl\VVVV.GStreamer.Playbin.vl" nodename="Playbin (GStreamer)" componentmode="Hidden" hiddenwhenlocked="0" managers="">
+   <BOUNDS type="Node" left="3969" top="1687" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="0" top="0" width="2240" height="1680">
+   </BOUNDS>
+   <BOUNDS type="Window" left="0" top="0" width="5600" height="4200">
+   </BOUNDS>
+   </NODE>
+   <LINK srcnodeid="8" srcpinname="Output String" dstnodeid="67" dstpinname="Uri">
+   </LINK>
+   <LINK srcnodeid="67" srcpinname="Stream" dstnodeid="32" dstpinname="Data">
+   </LINK>
+   <LINK srcnodeid="67" srcpinname="Stream" dstnodeid="43" dstpinname="Data">
+   </LINK>
+   <LINK srcnodeid="44" srcpinname="Y Output Value" dstnodeid="67" dstpinname="Play">
+   </LINK>
+   <LINK srcnodeid="45" srcpinname="Y Output Value" dstnodeid="67" dstpinname="Seek Time">
+   </LINK>
+   <LINK srcnodeid="67" srcpinname="Position" dstnodeid="51" dstpinname="Y Input Value">
+   </LINK>
+   <LINK srcnodeid="58" srcpinname="Y Output Value" dstnodeid="67" dstpinname="Seek">
    </LINK>
    </PATCH>

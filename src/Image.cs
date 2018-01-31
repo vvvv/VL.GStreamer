@@ -1,4 +1,5 @@
 ﻿using Gst;
+using Gst.Video;
 using System;
 using System.Threading;
 using VL.Lib.Basics.Imaging;
@@ -33,6 +34,8 @@ namespace VL.Lib.GStreamer
 
         readonly Gst.Buffer FBuffer;
         readonly Sample FSample;
+        readonly ImageInfo FInfo;
+        bool FIsDisposed;
 
         public Image(Sample sample)
             : base()
@@ -45,19 +48,26 @@ namespace VL.Lib.GStreamer
                 int width, height;
                 structure.GetInt("width", out width);
                 structure.GetInt("height", out height);
-                Info = new ImageInfo(width, height, PixelFormat.B8G8R8X8);
+                var format = structure.GetString("format");
+                var videoFormat = format.ToVideoFormat();
+                var pixelFormat = videoFormat.ToPixelFormat();
+                FInfo = new ImageInfo(width, height, pixelFormat);
             }
         }
 
-        public ImageInfo Info { get; }
+        public ImageInfo Info => !FIsDisposed ? FInfo : ImageExtensions.Default.Info;
         public bool IsDisposed => FSample == null;
         public bool IsVolatile => true;
 
         public void Dispose()
         {
-            FBuffer.Dispose();
+            if (!FIsDisposed)
+            {
+                FIsDisposed = true;
+                FBuffer.Dispose();
+            }
         }
 
-        public IImageData GetData() => new Data(FBuffer, Info.ScanSize);
+        public IImageData GetData() => !FIsDisposed ? new Data(FBuffer, Info.ScanSize) : ImageExtensions.Default.GetData();
     }
 }

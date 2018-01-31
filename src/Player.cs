@@ -1,10 +1,13 @@
 ﻿using Gst;
 using Gst.App;
+using Gst.Video;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using VL.Lib.Basics.Imaging;
+using Constants = Gst.Constants;
 
 namespace VL.Lib.GStreamer
 {
@@ -35,13 +38,12 @@ namespace VL.Lib.GStreamer
         readonly Element audiosink;
 
         string FUri;
-        string FFormat;
         bool FSeeking;
         bool FPlay;
         float FPosition, FDuration = -1f;
         State FState;
 
-        public Player()
+        public Player(VideoFormat format = VideoFormat.Bgra)
         {
             // Create the empty pipeline
             playbin = ElementFactory.Make("playbin") as Pipeline;
@@ -58,7 +60,8 @@ namespace VL.Lib.GStreamer
             videosink.Sync = true;
             videosink.Qos = false;
             videosink.Drop = false;
-            videosink.Caps = Caps.FromString("video/x-raw, format=BGRx");
+            var formatString = format.ToFormatString();
+            videosink.Caps = Caps.FromString($"video/x-raw, format={formatString}");
             videosink.MaxBuffers = 1;
             videosink.EmitSignals = true;
             videosink.NewPreroll += Videosink_NewPreroll;
@@ -98,7 +101,10 @@ namespace VL.Lib.GStreamer
         private void PushImage(Sample sample)
         {
             if (sample != null)
-                videoFrames.OnNext(new Image(sample));
+            {
+                using (var image = new Image(sample))
+                    videoFrames.OnNext(image);
+            }
         }
 
         private void Bus_Message(object o, MessageArgs args)
@@ -112,6 +118,10 @@ namespace VL.Lib.GStreamer
                 case MessageType.Eos:
                     break;
                 case MessageType.Error:
+                    GLib.GException e;
+                    string m;
+                    msg.ParseError(out e, out m);
+                    Trace.TraceError($"Exception: {e}, Debug: {m}");
                     break;
                 case MessageType.Warning:
                     break;
@@ -125,6 +135,11 @@ namespace VL.Lib.GStreamer
                     State oldState, newState, pending;
                     msg.ParseStateChanged(out oldState, out newState, out pending);
                     FState = newState;
+                    //if (newState == State.Playing)
+                    //{
+                    //    // Once we are in the playing state, analyze the streams
+                    //    AnalyzeStreams();
+                    //}
                     break;
                 case MessageType.StateDirty:
                     break;
@@ -205,7 +220,6 @@ namespace VL.Lib.GStreamer
             out float position,
             out float duration,
             string uri = "http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4", 
-            string format = "BGRx", 
             bool play = false,
             bool seek = false,
             float seekTime = 0)
@@ -220,15 +234,6 @@ namespace VL.Lib.GStreamer
             {
                 FUri = uri;
                 playbin["uri"] = uri;
-            }
-
-            if (format != FFormat)
-            {
-                FFormat = format;
-                videosink.Caps = Caps.FromString($"video/x-raw, format={format}");
-                var currentState = FState;
-                playbin.SetState(State.Null);
-                playbin.SetState(currentState);
             }
 
             if (play != FPlay)
@@ -294,5 +299,74 @@ namespace VL.Lib.GStreamer
             //}
             //return ResourceProvider.Return(VideoFrame.Empty);
         }
+
+        //// Extract some metadata from the streams and print it on the screen
+        //void AnalyzeStreams()
+        //{
+        //    // Read some properties
+        //    var NVideo = (int)playbin["n-video"];
+        //    var NAudio = (int)playbin["n-audio"];
+        //    var NText = (int)playbin["n-text"];
+
+        //    Trace.TraceInformation("{0} video stream(s), {1} audio stream(s), {2} text stream(s)", NVideo, NAudio, NText);
+
+        //    for (int i = 0; i < NVideo; i++)
+        //    {
+        //        // Retrieve the stream's video tags
+        //        var tags = (TagList)playbin.Emit("get-video-tags", new object[] { i });
+        //        if (tags != null)
+        //        {
+        //            Trace.TraceInformation("video stream {0}", i);
+        //            string str;
+        //            tags.GetString(Constants.TAG_VIDEO_CODEC, out str);
+        //            Trace.TraceInformation("  codec: {0}", str != null ? str : "unknown");
+        //        }
+        //    }
+
+        //    for (int i = 0; i < NAudio; i++)
+        //    {
+        //        // Retrieve the stream's audio tags
+        //        var tags = (TagList)playbin.Emit("get-audio-tags", new object[] { i });
+        //        if (tags != null)
+        //        {
+        //            Trace.TraceInformation("audio stream {0}", i);
+        //            string str;
+        //            if (tags.GetString(Constants.TAG_AUDIO_CODEC, out str))
+        //            {
+        //                Trace.TraceInformation("  codec: {0}", str);
+        //            }
+        //            if (tags.GetString(Constants.TAG_LANGUAGE_CODE, out str))
+        //            {
+        //                Trace.TraceInformation("  language: {0}", str);
+        //            }
+        //            uint rate;
+        //            if (tags.GetUint(Constants.TAG_BITRATE, out rate))
+        //            {
+        //                Trace.TraceInformation("  bitrate: {0}", rate);
+        //            }
+        //        }
+        //    }
+
+        //    for (int i = 0; i < NText; i++)
+        //    {
+        //        // Retrieve the stream's subtitle tags
+        //        var tags = (TagList)playbin.Emit("get-text-tags", new object[] { i });
+        //        if (tags != null)
+        //        {
+        //            Trace.TraceInformation("subtitle stream {0}", i);
+        //            string str;
+        //            if (tags.GetString(Constants.TAG_LANGUAGE_CODE, out str))
+        //            {
+        //                Trace.TraceInformation("  language: {0}", str);
+        //            }
+        //        }
+        //    }
+
+        //    var CurrentAudio = (int)playbin["current-audio"];
+        //    var CurrentVideo = (int)playbin["current-video"];
+        //    var CurrentText = (int)playbin["current-text"];
+
+        //    Trace.TraceInformation("Currently playing video stream {0}, audio stream {1} and text stream {2}", CurrentVideo, CurrentAudio, CurrentText);
+        //}
     }
 }
