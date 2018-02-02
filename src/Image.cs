@@ -1,12 +1,10 @@
 ﻿using Gst;
-using Gst.Video;
 using System;
-using System.Threading;
 using VL.Lib.Basics.Imaging;
 
 namespace VL.Lib.GStreamer
 {
-    public class Image : IImage
+    public class Image : IImage, IDisposable
     {
         class Data : IImageData
         {
@@ -51,7 +49,7 @@ namespace VL.Lib.GStreamer
                 var format = structure.GetString("format");
                 var videoFormat = format.ToVideoFormat();
                 var pixelFormat = videoFormat.ToPixelFormat();
-                FInfo = new ImageInfo(width, height, pixelFormat);
+                FInfo = new ImageInfo(width, height, pixelFormat, format);
             }
         }
 

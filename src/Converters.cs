@@ -192,7 +192,7 @@ namespace VL.Lib.GStreamer
                 default:
                     break;
             }
-            throw new UnsupportedVideoFormatException(format);
+            return PixelFormat.Unknown;
         }
 
         public static string ToFormatString(this VideoFormat format)

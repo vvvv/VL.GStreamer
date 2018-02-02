@@ -66,7 +66,6 @@
     <Compile Include="Image.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Player.cs" />
-    <Compile Include="UnsupportedVideoFormatException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
