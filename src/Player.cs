@@ -233,7 +233,9 @@ namespace VL.Lib.GStreamer
             if (uri != FUri)
             {
                 FUri = uri;
+                var current = SwitchState(State.Ready);
                 playbin["uri"] = uri;
+                SwitchState(current);
             }
 
             if (play != FPlay)
@@ -298,6 +300,14 @@ namespace VL.Lib.GStreamer
             //    }
             //}
             //return ResourceProvider.Return(VideoFrame.Empty);
+        }
+
+        State SwitchState(State state)
+        {
+            playbin.SetState(state);
+            State c, p;
+            playbin.GetState(out c, out p, Constants.CLOCK_TIME_NONE);
+            return FPlay ? State.Playing : State.Paused;
         }
 
         //// Extract some metadata from the streams and print it on the screen
