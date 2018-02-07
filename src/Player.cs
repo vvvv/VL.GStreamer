@@ -60,7 +60,7 @@ namespace VL.Lib.GStreamer
             videosink.Sync = true;
             videosink.Qos = false;
             videosink.Drop = false;
-            var formatString = format.ToFormatString();
+            var formatString = (format != VideoFormat.Unknown ? format : VideoFormat.Bgrx).ToFormatString();
             videosink.Caps = Caps.FromString($"video/x-raw, format={formatString}");
             videosink.MaxBuffers = 1;
             videosink.EmitSignals = true;
