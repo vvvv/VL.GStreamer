@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:p="property" Id="RVw0IQgkfDtNg3md7sHH9V" Version="0.74">
+<Document xmlns:p="property" Id="RVw0IQgkfDtNg3md7sHH9V" Version="0.75">
   <Patch Id="RFohkbpBvQHOrNjfuuFk8G">
     <Canvas Id="PLANHsnn1GBM3ywhZuM4vS" DefaultCategory="GStreamer">
       <!--
@@ -114,7 +114,7 @@
   <NugetDependency Id="MEW3C2kg0D3MfHGZaPGggs" Location="VL.Core" Version="0.73.60-g216609aa5b" />
   <NugetDependency Id="HBVc8pai0UzL32sCkz83wU" Location="VL.CoreLib" Version="0.73.60-g216609aa5b" />
   <NugetDependency Id="T1SwfXqRm4vOpF9QEGDpmC" Location="VL.CoreLib.VVVV" Version="0.73.60-g216609aa5b" />
-  <NugetDependency Id="F7IuS2sogzuLb5Sn4QriJ3" Location="GstSharp" Version="1.13.0.1" />
   <PlatformDependency Id="VxPqZeBOTw4MxvZ2D7OM6g" Location="./lib/net461/VL.GStreamer.dll" />
   <NugetDependency Id="V0K6M1IYLUrLKLzSsv1loc" Location="VL.CoreLib.Experimental" Version="0.74.11-gba142e66e7" />
+  <PlatformDependency Id="BotuwNnMdSGMHg9sBwxUWF" Location="./lib/net461/gstreamer-sharp.dll" />
 </Document>
