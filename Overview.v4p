@@ -1,29 +1,13 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50debug35.16.dtd" >
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50alpha35.18.dtd" >
    <PATCH nodename="C:\Users\elias\dev\misc\VL.GStreamer\Overview.v4p" systemname="Overview" filename="C:\Users\elias\dev\misc\VL.GStreamer\Overview.v4p">
-   <BOUNDS type="Window" left="1127" top="238" width="12551" height="7399">
+   <BOUNDS type="Window" left="1127" top="238" width="12551" height="10290">
    </BOUNDS>
    <PACK Name="addonpack" Version="35.9.0">
    </PACK>
-   <NODE nodename="IOBox (String)" componentmode="InABox" id="8">
-   <BOUNDS type="Box" left="623" top="539" width="3157" height="343">
-   </BOUNDS>
-   <BOUNDS type="Node" left="623" top="539" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Input String" slicecount="1" visible="1" values="C:\Users\elias\Desktop\sintel_trailer-1080p.mp4">
-   </PIN>
-   <PIN pinname="Default" slicecount="1" values="http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4">
-   </PIN>
-   <PIN pinname="File Mask" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
-   </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Uri">
-   </PIN>
-   </NODE>
    <NODE nodename="IOBox (String)" systemname="IOBox (String)" componentmode="InABox" id="31">
-   <BOUNDS type="Node" left="5040" top="1708" width="5068" height="210">
+   <BOUNDS type="Node" left="4172" top="3794" width="5068" height="210">
    </BOUNDS>
-   <BOUNDS type="Box" left="5040" top="1708" width="5705" height="224">
+   <BOUNDS type="Box" left="4172" top="3794" width="5705" height="224">
    </BOUNDS>
    <PIN pinname="Input String" visible="0" slicecount="1" values="|&lt;- The textures coming out of the VL node get created in the streaming threads|">
    </PIN>
@@ -35,9 +19,9 @@
    </PIN>
    </NODE>
    <NODE id="32" systemname="UploadImage (EX9.Texture Async)" filename="..\..\vvvv\public-vl\VL.CoreLib.VVVV\vvvv\nodes\plugins\VL.CoreLib.VVVV.dll" nodename="UploadImage (EX9.Texture Async)" componentmode="Hidden">
-   <BOUNDS type="Node" left="2583" top="2492" width="100" height="100">
+   <BOUNDS type="Node" left="2905" top="3766" width="100" height="100">
    </BOUNDS>
-   <BOUNDS type="Box" left="2583" top="2492" width="1400" height="1400">
+   <BOUNDS type="Box" left="2905" top="3766" width="1400" height="1400">
    </BOUNDS>
    <PIN pinname="Data" visible="1" slicecount="1" values="||">
    </PIN>
@@ -48,22 +32,10 @@
    <PIN pinname="Swap Count" visible="1">
    </PIN>
    </NODE>
-   <NODE systemname="UploadImage (DX11.Texture Async)" filename="..\..\vvvv\public-vl\VL.VVVV.DirectX11\vvvv\nodes\plugins\VL.VVVV.DirectX11.dll" nodename="UploadImage (DX11.Texture Async)" componentmode="Hidden" id="43">
-   <BOUNDS type="Node" left="8750" top="2289" width="100" height="100">
-   </BOUNDS>
-   <BOUNDS type="Box" left="8750" top="2289" width="1400" height="1400">
-   </BOUNDS>
-   <PIN pinname="Data" visible="1" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Texture Out" visible="1">
-   </PIN>
-   <PIN pinname="Drop Count" visible="1">
-   </PIN>
-   </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="44">
-   <BOUNDS type="Box" left="5929" top="574" width="480" height="480">
+   <BOUNDS type="Box" left="4298" top="1302" width="480" height="480">
    </BOUNDS>
-   <BOUNDS type="Node" left="5929" top="574" width="0" height="0">
+   <BOUNDS type="Node" left="4298" top="1302" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" visible="1" values="1">
    </PIN>
@@ -81,11 +53,11 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="45">
-   <BOUNDS type="Box" left="4368" top="700" width="693" height="210">
+   <BOUNDS type="Box" left="5712" top="2023" width="693" height="210">
    </BOUNDS>
-   <BOUNDS type="Node" left="4368" top="700" width="0" height="0">
+   <BOUNDS type="Node" left="5712" top="2023" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.04">
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -94,52 +66,22 @@
    <PIN pinname="Descriptive Name" slicecount="1" values="|Seek Time|">
    </PIN>
    </NODE>
-   <NODE id="11" systemname="RENDERER (EX9)" nodename="Renderer (EX9)" componentmode="InAWindow">
-   <BOUNDS type="Node" left="2415" top="6020" width="100" height="100">
+   <NODE id="11" systemname="RENDERER (EX9)" nodename="Renderer (EX9)" componentmode="InABox">
+   <BOUNDS type="Node" left="2555" top="6020" width="100" height="100">
    </BOUNDS>
-   <BOUNDS type="Box" left="2415" top="6020" width="3178" height="2478">
+   <BOUNDS type="Box" left="2555" top="6020" width="6202" height="3619">
    </BOUNDS>
    <BOUNDS type="Window" left="1134" top="7735" width="5411" height="4417">
    </BOUNDS>
    <PIN pinname="Layers" visible="1">
    </PIN>
-   <PIN pinname="Auto Aspect Ratio" slicecount="1" values="0">
-   </PIN>
-   </NODE>
-   <NODE systemname="FullscreenQuad (DX9)" filename="%VVVV%\addonpack\lib\nodes\modules\TextureFX\misc\FullscreenQuad (DX9).v4p" nodename="FullscreenQuad (DX9)" componentmode="Hidden" id="47">
-   <BOUNDS type="Node" left="2569" top="4746" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Texture" visible="1" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Layer" visible="1">
-   </PIN>
-   <PIN pinname="Blend Mode" slicecount="1" values="Off">
-   </PIN>
-   </NODE>
-   <NODE systemname="FullscreenQuad (DX11.Layer)" filename="%VVVV%\packs\dx11\nodes\modules\FullscreenQuad (DX11.Layer).v4p" nodename="FullscreenQuad (DX11.Layer)" componentmode="Hidden" id="48">
-   <BOUNDS type="Node" left="8337" top="4802" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Texture" visible="1" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Layer" visible="1">
-   </PIN>
-   <PIN pinname="Render State" visible="1" slicecount="1" values="||">
-   </PIN>
-   </NODE>
-   <NODE systemname="Renderer (DX11)" filename="%VVVV%\packs\dx11\nodes\plugins\base\VVVV.DX11.Nodes.dll" nodename="Renderer (DX11)" componentmode="InAWindow" id="49">
-   <BOUNDS type="Node" left="8183" top="5999" width="100" height="100">
-   </BOUNDS>
-   <BOUNDS type="Box" left="8183" top="5999" width="2800" height="2100">
-   </BOUNDS>
-   <BOUNDS type="Window" left="6559" top="7728" width="5593" height="4403">
-   </BOUNDS>
-   <PIN pinname="Layers" visible="1">
+   <PIN pinname="Auto Aspect Ratio" slicecount="1" values="1">
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="51">
-   <BOUNDS type="Box" left="4655" top="2324" width="693" height="210">
+   <BOUNDS type="Box" left="7126" top="3248" width="693" height="210">
    </BOUNDS>
-   <BOUNDS type="Node" left="4655" top="2324" width="0" height="0">
+   <BOUNDS type="Node" left="7126" top="3248" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -148,14 +90,10 @@
    <PIN pinname="Descriptive Name" slicecount="1" values="Position">
    </PIN>
    </NODE>
-   <LINK srcnodeid="32" srcpinname="Texture Out" dstnodeid="47" dstpinname="Texture">
-   </LINK>
-   <LINK srcnodeid="43" srcpinname="Texture Out" dstnodeid="48" dstpinname="Texture">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="58">
-   <BOUNDS type="Box" left="7427" top="490" width="480" height="480">
+   <BOUNDS type="Box" left="7133" top="1820" width="480" height="480">
    </BOUNDS>
-   <BOUNDS type="Node" left="7427" top="490" width="0" height="0">
+   <BOUNDS type="Node" left="7133" top="1820" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0">
    </PIN>
@@ -172,74 +110,90 @@
    <PIN pinname="X Input Value" slicecount="1" values="0">
    </PIN>
    </NODE>
-   <NODE id="67" systemname="Player (GStreamer)" filename="C:\Users\elias\dev\misc\VL.GStreamer\vl\VVVV.GStreamer.Playbin.vl" nodename="Playbin (GStreamer)" componentmode="Hidden" hiddenwhenlocked="0" managers="">
-   <BOUNDS type="Node" left="3969" top="1687" width="100" height="100">
+   <PACK Name="dx11" Version="1.0.3">
+   </PACK>
+   <NODE systemname="Quad (DX9)" nodename="Quad (DX9)" componentmode="Hidden" id="77">
+   <BOUNDS type="Node" left="2562" top="5418" width="100" height="100">
    </BOUNDS>
-   <BOUNDS type="Box" left="0" top="0" width="2240" height="1680">
+   <PIN pinname="Texture" visible="1">
+   </PIN>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   <PIN pinname="Transform" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="32" srcpinname="Texture Out" dstnodeid="77" dstpinname="Texture">
+   </LINK>
+   <NODE systemname="Info (EX9.Texture)" nodename="Info (EX9.Texture)" componentmode="Hidden" id="80">
+   <BOUNDS type="Node" left="3024" top="4438" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Texture" visible="1">
+   </PIN>
+   <PIN pinname="Height" visible="1">
+   </PIN>
+   <PIN pinname="Width" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="32" srcpinname="Texture Out" dstnodeid="80" dstpinname="Texture">
+   </LINK>
+   <NODE systemname="AspectRatio (Transform)" nodename="AspectRatio (Transform)" componentmode="Hidden" id="81">
+   <BOUNDS type="Node" left="2723" top="5005" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Aspect Height" visible="1">
+   </PIN>
+   <PIN pinname="Aspect Width" visible="1">
+   </PIN>
+   <PIN pinname="Transform Out" visible="1">
+   </PIN>
+   <PIN pinname="Uniform Scale" slicecount="1" values="2">
+   </PIN>
+   <PIN pinname="Alignment" slicecount="1" values="FitOut">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="80" srcpinname="Height" dstnodeid="81" dstpinname="Aspect Height">
+   </LINK>
+   <LINK srcnodeid="80" srcpinname="Width" dstnodeid="81" dstpinname="Aspect Width">
+   </LINK>
+   <LINK srcnodeid="81" srcpinname="Transform Out" dstnodeid="77" dstpinname="Transform">
+   </LINK>
+   <LINK srcnodeid="77" srcpinname="Layer" dstnodeid="11" dstpinname="Layers">
+   </LINK>
+   <NODE id="82" systemname="Player (GStreamer)" filename="C:\Users\elias\dev\misc\VL.GStreamer\vl\VVVV.GStreamer.Playbin.vl" nodename="Playbin (GStreamer)" componentmode="Hidden" hiddenwhenlocked="0" managers="">
+   <BOUNDS type="Node" left="2891" top="2527" width="4291" height="252">
+   </BOUNDS>
+   <BOUNDS type="Box" left="0" top="840" width="2240" height="1680">
    </BOUNDS>
    <BOUNDS type="Window" left="0" top="0" width="5600" height="4200">
    </BOUNDS>
-   </NODE>
-   <LINK srcnodeid="8" srcpinname="Output String" dstnodeid="67" dstpinname="Uri">
-   </LINK>
-   <LINK srcnodeid="67" srcpinname="Stream" dstnodeid="32" dstpinname="Data">
-   </LINK>
-   <LINK srcnodeid="67" srcpinname="Stream" dstnodeid="43" dstpinname="Data">
-   </LINK>
-   <LINK srcnodeid="44" srcpinname="Y Output Value" dstnodeid="67" dstpinname="Play">
-   </LINK>
-   <LINK srcnodeid="45" srcpinname="Y Output Value" dstnodeid="67" dstpinname="Seek Time">
-   </LINK>
-   <LINK srcnodeid="67" srcpinname="Position" dstnodeid="51" dstpinname="Y Input Value">
-   </LINK>
-   <LINK srcnodeid="58" srcpinname="Y Output Value" dstnodeid="67" dstpinname="Seek">
-   </LINK>
-   <PACK Name="dx11" Version="1.0.3">
-   </PACK>
-   <NODE systemname="Group (DX11.Layer)" filename="%VVVV%\packs\dx11\nodes\plugins\base\VVVV.DX11.Nodes.dll" nodename="Group (DX11.Layer)" componentmode="Hidden" id="73">
-   <BOUNDS type="Node" left="8330" top="5341" width="100" height="100">
-   </BOUNDS>
-   <BOUNDS type="Box" left="8330" top="5341" width="1400" height="1400">
-   </BOUNDS>
-   <PIN pinname="Layer 1" visible="1">
-   </PIN>
-   <PIN pinname="Layer Out" visible="1">
-   </PIN>
-   <PIN pinname="Layer 2" visible="1">
+   <PIN pinname="Uri" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="48" srcpinname="Layer" dstnodeid="73" dstpinname="Layer 1">
+   <LINK srcnodeid="82" srcpinname="Stream" dstnodeid="32" dstpinname="Data">
    </LINK>
-   <LINK srcnodeid="73" srcpinname="Layer Out" dstnodeid="49" dstpinname="Layers">
+   <LINK srcnodeid="44" srcpinname="Y Output Value" dstnodeid="82" dstpinname="Play">
    </LINK>
-   <NODE systemname="PerfMeter (DX11.Debug)" filename="%VVVV%\packs\dx11\nodes\modules\PerfMeter (DX11.Debug).v4p" nodename="PerfMeter (DX11.Debug)" componentmode="Hidden" id="74">
-   <BOUNDS type="Node" left="9261" top="5110" width="100" height="100">
+   <LINK srcnodeid="45" srcpinname="Y Output Value" dstnodeid="82" dstpinname="Seek Time">
+   </LINK>
+   <LINK srcnodeid="82" srcpinname="Position" dstnodeid="51" dstpinname="Y Input Value">
+   </LINK>
+   <LINK srcnodeid="58" srcpinname="Y Output Value" dstnodeid="82" dstpinname="Seek">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="83">
+   <BOUNDS type="Box" left="2898" top="630" width="4858" height="231">
    </BOUNDS>
-   <PIN pinname="Layer" visible="1">
+   <BOUNDS type="Node" left="2898" top="630" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="1" visible="1" values="http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Uri">
    </PIN>
    </NODE>
-   <LINK srcnodeid="74" srcpinname="Layer" dstnodeid="73" dstpinname="Layer 2">
-   </LINK>
-   <NODE systemname="PerfMeter (Debug)" filename="%VVVV%\lib\nodes\modules\Debug\PerfMeter (Debug).v4p" nodename="PerfMeter (Debug)" componentmode="Hidden" id="75">
-   <BOUNDS type="Node" left="3374" top="5145" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Layer" visible="1">
-   </PIN>
-   </NODE>
-   <NODE systemname="Group (EX9)" nodename="Group (EX9)" componentmode="Hidden" id="76">
-   <BOUNDS type="Node" left="2576" top="5481" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Layer 1" visible="1">
-   </PIN>
-   <PIN pinname="Layer 2" visible="1">
-   </PIN>
-   <PIN pinname="Layer" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="47" srcpinname="Layer" dstnodeid="76" dstpinname="Layer 1">
-   </LINK>
-   <LINK srcnodeid="75" srcpinname="Layer" dstnodeid="76" dstpinname="Layer 2">
-   </LINK>
-   <LINK srcnodeid="76" srcpinname="Layer" dstnodeid="11" dstpinname="Layers">
+   <LINK srcnodeid="83" srcpinname="Output String" dstnodeid="82" dstpinname="Uri">
    </LINK>
    </PATCH>
