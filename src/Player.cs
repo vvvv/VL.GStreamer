@@ -3,7 +3,6 @@ using Gst.App;
 using Gst.Video;
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using VL.Lib.Basics.Imaging;
@@ -15,20 +14,7 @@ namespace VL.Lib.GStreamer
     {
         static Player()
         {
-            // Initialize Gstreamer
-            var args = System.Array.Empty<string>();
-            var path = Environment.GetEnvironmentVariable("PATH") ?? String.Empty;
-            var folder = IntPtr.Size == 4 ? "x86" : "x86_64";
-            Environment.SetEnvironmentVariable("PATH", path + Path.PathSeparator + $@"C:\gstreamer\1.0\{folder}\bin");
-            Application.Init(ref args);
-            System.Windows.Forms.Application.Idle += Application_Idle;
-        }
-
-        private static void Application_Idle(object sender, EventArgs e)
-        {
-            var context = GLib.MainContext.Default;
-            if (context.HasPendingEvents)
-                context.RunIteration(may_block: true);
+            Initialization.Init();
         }
 
         readonly Subject<IImage> videoFrames = new Subject<IImage>();
@@ -38,9 +24,9 @@ namespace VL.Lib.GStreamer
         readonly Element audiosink;
 
         string FUri;
-        bool FSeeking;
-        bool FPlay;
+        bool FSeeking, FPlay, FLoop, FEos;
         float FPosition, FDuration = -1f;
+        float FLoopStartTime, FLoopEndTime;
         State FState;
 
         public Player(VideoFormat format = VideoFormat.Bgra)
@@ -116,6 +102,7 @@ namespace VL.Lib.GStreamer
                 case MessageType.Unknown:
                     break;
                 case MessageType.Eos:
+                    FEos = true;
                     break;
                 case MessageType.Error:
                     GLib.GException e;
@@ -135,6 +122,7 @@ namespace VL.Lib.GStreamer
                     State oldState, newState, pending;
                     msg.ParseStateChanged(out oldState, out newState, out pending);
                     FState = newState;
+                    FEos = false;
                     //if (newState == State.Playing)
                     //{
                     //    // Once we are in the playing state, analyze the streams
@@ -146,10 +134,15 @@ namespace VL.Lib.GStreamer
                 case MessageType.StepDone:
                     break;
                 case MessageType.ClockProvide:
+                    //Clock c;
+                    //bool retry;
+                    //msg.ParseClockProvide(out c, out retry);
                     break;
                 case MessageType.ClockLost:
                     break;
                 case MessageType.NewClock:
+                    //var newClock = msg.ParseNewClock();
+
                     break;
                 case MessageType.StructureChange:
                     break;
@@ -162,6 +155,17 @@ namespace VL.Lib.GStreamer
                 case MessageType.SegmentStart:
                     break;
                 case MessageType.SegmentDone:
+                    var seekStartTime = GetSeekStartTime(FLoopStartTime);
+                    var seekEndTime = GetSeekEndTime(FLoopEndTime);
+                    if (FLoop)
+                    {
+                        var seekFlags = SeekFlags.Segment;
+                        if (FEos)
+                            seekFlags |= SeekFlags.Flush;
+                        playbin.Seek(1d, Format.Time, seekFlags, SeekType.Set, seekStartTime, SeekType.None, seekEndTime);
+                    }
+                    else
+                        playbin.Seek(1d, Format.Time, SeekFlags.None, SeekType.None, 0, SeekType.Set, -1);
                     break;
                 case MessageType.DurationChanged:
                     FDuration = -1;
@@ -222,8 +226,12 @@ namespace VL.Lib.GStreamer
             string uri = "http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4", 
             bool play = false,
             bool seek = false,
-            float seekTime = 0)
+            float seekTime = 0f,
+            bool loop = false,
+            float loopStartTime = 0f,
+            float loopEndTime = -1f)
         {
+            // Media to play
             if (!Util.UriIsValid(uri))
             {
                 System.Uri _uri;
@@ -238,6 +246,7 @@ namespace VL.Lib.GStreamer
                 SwitchState(current);
             }
 
+            // Play or pause
             if (play != FPlay)
             {
                 FPlay = play;
@@ -247,36 +256,70 @@ namespace VL.Lib.GStreamer
                     playbin.SetState(State.Paused);
             }
 
-            if (seek && !FSeeking)
+            // Seeking and looping
+            var doSeek = false;
+            var seekFlags = SeekFlags.None;
+            var seekStartType = SeekType.None;
+            var seekEndType = SeekType.None;
+            var seekStartTime = GetSeekStartTime(seekTime);
+            var seekEndTime = GetSeekEndTime(loopEndTime);
+            if (seek)
             {
-                FSeeking = true;
-                // Seek call can be rather expensive so put to background
-                System.Threading.Tasks.Task.Run(() =>
-                {
-                    if (playbin.SeekSimple(Format.Time, SeekFlags.Flush, (long)(seekTime * Gst.Constants.SECOND)))
-                    {
-                        FSeeking = true;
-                    }
-                    else
-                        FSeeking = false;
-                });
+                // Do a flushing seek
+                seekFlags |= SeekFlags.Flush;
+                seekStartType = SeekType.Set;
+                doSeek = true;
             }
+            if (loop)
+            {
+                // Ensure seeking is done via segment
+                seekFlags |= SeekFlags.Segment;
+                seekEndType = SeekType.Set;
+                if (!FLoop)
+                {
+                    // Switching from non-looping to looping state - seek is needed
+                    doSeek = true;
+                }
+                else if (loopStartTime != FLoopStartTime || loopEndTime != FLoopEndTime)
+                {
+                    // The loop parameters changed - seek is needed
+                    doSeek = true;
+                }
+            }
+            else if (FLoop)
+            {
+                // Switching from looping to non-looping state - reset end of segment
+                seekEndTime = -1;
+                seekEndType = SeekType.Set;
+                doSeek = true;
+            }
+            if (doSeek)
+            {
+                if (playbin.Seek(1d, Format.Time, seekFlags, seekStartType, seekStartTime, seekEndType, seekEndTime))
+                {
+                    FSeeking = seekFlags.HasFlag(SeekFlags.Flush);
+                    FLoopStartTime = loopStartTime;
+                    FLoopEndTime = loopEndTime;
+                }
+            }
+            FLoop = loop;
 
+            // Current position and duration tracking
             state = FState;
             if (state >= State.Paused)
             {
-                if (!FSeeking)
+                //if (!FSeeking)
                 {
                     long p;
                     playbin.QueryPosition(Format.Time, out p);
-                    FPosition = ((float)p) / Gst.Constants.SECOND;
+                    FPosition = ((float)p) / Constants.SECOND;
                 }
 
                 if (FDuration == -1)
                 {
                     long q;
                     playbin.QueryDuration(Format.Time, out q);
-                    FDuration = ((float)q) / Gst.Constants.SECOND;
+                    FDuration = ((float)q) / Constants.SECOND;
                 }
 
                 position = FPosition;
@@ -301,6 +344,18 @@ namespace VL.Lib.GStreamer
             //}
             //return ResourceProvider.Return(VideoFrame.Empty);
         }
+
+        private static long GetSeekEndTime(float loopEndTime)
+        {
+            return Math.Max((long)(loopEndTime * Constants.SECOND), -1);
+        }
+
+        private static long GetSeekStartTime(float seekTime)
+        {
+            return Math.Max((long)(seekTime * Constants.SECOND), 0);
+        }
+
+        public Clock Clock => playbin.Clock;
 
         State SwitchState(State state)
         {

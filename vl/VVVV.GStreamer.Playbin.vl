@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:p="property" Id="GB2VxUl5VdhM5rsl5IbjQg" Version="0.75">
+<Document xmlns:p="property" Id="GB2VxUl5VdhM5rsl5IbjQg" Version="0.77">
   <NugetDependency Id="RKFCmk1Lg5EP3I4IQegLTw" Location="VL.CoreLib" Version="0.35.21" />
   <NugetDependency Id="U2JwHqMJLyGLDs97lM6eZ6" Location="VL.CoreLib.VVVV" Version="0.35.21" />
   <NugetDependency Id="Q18ZLENm9gzPhBnFnztPMP" Location="VL.Core" Version="0.35.21" />
@@ -24,6 +24,9 @@
             <Pin Id="JjKgSgCEy9zMZDuOt5sOp2" Name="Play" Kind="InputPin" Bounds="324,125" />
             <Pin Id="NniP60ZvdmFMyAyW0eIOeh" Name="Seek Time" Kind="InputPin" Bounds="258,140" />
             <Pin Id="O0F3h4symC8QAe13oOEjQp" Name="Seek" Kind="InputPin" Bounds="364,141" />
+            <Pin Id="F8wofMwdWCdMF9mPa8MzK5" Name="Loop" Kind="InputPin" Bounds="360,156" />
+            <Pin Id="A5UxrX4b3q4OOfeBeN4rEu" Name="Loop Start Time" Kind="InputPin" Bounds="380,176" />
+            <Pin Id="EB2gg9mVQg0PWEBWyxzUnM" Name="Loop End Time" Kind="InputPin" Bounds="402,202" />
           </Patch>
           <Canvas Id="C4yd3S6BFv9NWqJ2WO3OFi">
             <Node Bounds="262,245,65,13" Id="HUNQQZw5R1dPr8hbqR42PJ">
@@ -43,25 +46,32 @@
                   <Choice Kind="TypeFlag" Name="Float32" />
                 </p:TypeAnnotation>
               </Pin>
+              <Pin Id="OHx1RVvsUFUM6nEWj4BNhT" Name="Loop" Kind="InputPin" />
+              <Pin Id="EbyGuSpRvJSNpWMo77xqHd" Name="Loop Start Time" Kind="InputPin" />
+              <Pin Id="THvOWUaYZhHO67OYtantcM" Name="Loop End Time" Kind="InputPin" />
               <Pin Id="IhY14jCLJmLOy7Bx1iFHqa" Name="State" Kind="OutputPin" />
               <Pin Id="D2HnEXd8MCNOG4WzbuoWvy" Name="Position" Kind="OutputPin" />
               <Pin Id="NJwxOWpCglQNZPSdbRDQd8" Name="Duration" Kind="OutputPin" />
               <Pin Id="AJOBCPk1rHtNlzSXB5LzEb" Name="Video Frames" Kind="OutputPin" />
+              <Pin Id="IqwYuu49Y4ALPL90tKUf3i" Name="Clock" Kind="OutputPin" />
             </Node>
             <Pad Id="VgevmXXSPUsLWOaDUtSCjP" Comment="Duration" Bounds="312,328,34,18" ShowValueBox="true" isIOBox="true" />
             <Pad Id="VPpggyfpzdUMWpBGvXh4hq" Comment="Position" Bounds="279,365,34,18" ShowValueBox="true" isIOBox="true" />
             <Pad Id="V27bVLZ6rjIN6ic96Wpg9j" Comment="State" Bounds="116,338,82,18" ShowValueBox="true" isIOBox="true" />
-            <ControlPoint Id="PmLYCDWim6vLx0uhsGDQAW" Bounds="351,139" />
-            <ControlPoint Id="Iv9alExLytnOyAAb4gYx9S" Bounds="292,145" />
-            <ControlPoint Id="VAjDf5LeUVGN7KO5nZ3MiM" Bounds="445,143" />
+            <ControlPoint Id="PmLYCDWim6vLx0uhsGDQAW" Bounds="302,95" />
+            <ControlPoint Id="Iv9alExLytnOyAAb4gYx9S" Bounds="285,76" />
+            <ControlPoint Id="VAjDf5LeUVGN7KO5nZ3MiM" Bounds="340,138" />
             <ControlPoint Id="J6OqPNiwoozL0aLBKBj4qu" Bounds="390,498" />
             <ControlPoint Id="JgjW0NwflNiOVq0jSIWteB" Bounds="232,498" />
-            <ControlPoint Id="FSOEA8NUxHmQOy41m7Hkov" Bounds="391,138" />
+            <ControlPoint Id="FSOEA8NUxHmQOy41m7Hkov" Bounds="323,117" />
             <Pad Id="AhPTE6N2sNLQIYhA2Mnsbb" Comment="Format" Bounds="162,190,78,18" ShowValueBox="true" isIOBox="true" Value="&quot;Bgrx&quot;">
               <p:TypeAnnotation LastCategoryFullName="Gst.Video" LastSymbolSource="gstreamer-sharp.dll">
                 <Choice Kind="TypeFlag" Name="VideoFormat" />
               </p:TypeAnnotation>
             </Pad>
+            <ControlPoint Id="UCCZYeSekkUQEFEnYRK30Q" Bounds="360,156" />
+            <ControlPoint Id="T7rR4dmROqsNI04Iq7b66l" Bounds="381,176" />
+            <ControlPoint Id="FybrA2VAJMnL4D1mPnHHo5" Bounds="402,202" />
           </Canvas>
           <ProcessDefinition Id="FHNLl8GWgcVOJzRkkPI83E">
             <Fragment Id="MRFnVwHDf0WOO7H3jKbCxI" Patch="ESJZDDS0I02LAWDOx9RJVV" Enabled="true" />
@@ -83,6 +93,12 @@
           <Link Id="KEgcHMxVTiZLM7zLJsVCQA" Ids="FSOEA8NUxHmQOy41m7Hkov,GYLHVa776xvNzhoCiK08b8" />
           <Link Id="LLgzNwy7gb1MvBogOTTOW5" Ids="O0F3h4symC8QAe13oOEjQp,FSOEA8NUxHmQOy41m7Hkov" IsHidden="true" />
           <Link Id="NXzHcip22ibMLOywLQGtxy" Ids="AhPTE6N2sNLQIYhA2Mnsbb,FRADj5p36J5L1mLL0ifEbF" />
+          <Link Id="ELFrEkSdUXpQJeIxbTl581" Ids="UCCZYeSekkUQEFEnYRK30Q,OHx1RVvsUFUM6nEWj4BNhT" />
+          <Link Id="FF6hJnp9wxjMVEQwuAVw4Y" Ids="F8wofMwdWCdMF9mPa8MzK5,UCCZYeSekkUQEFEnYRK30Q" IsHidden="true" />
+          <Link Id="Jd81xJ14UTpL6RAQw6nHrg" Ids="T7rR4dmROqsNI04Iq7b66l,EbyGuSpRvJSNpWMo77xqHd" />
+          <Link Id="AcizHM3sSl0Oi8xVg6mAhO" Ids="A5UxrX4b3q4OOfeBeN4rEu,T7rR4dmROqsNI04Iq7b66l" IsHidden="true" />
+          <Link Id="VhupRzS4zLYP27zuKdbhW9" Ids="FybrA2VAJMnL4D1mPnHHo5,THvOWUaYZhHO67OYtantcM" />
+          <Link Id="IlTlZoWOvkoMg0pXw08wS5" Ids="EB2gg9mVQg0PWEBWyxzUnM,FybrA2VAJMnL4D1mPnHHo5" IsHidden="true" />
         </Patch>
       </Node>
     </Canvas>

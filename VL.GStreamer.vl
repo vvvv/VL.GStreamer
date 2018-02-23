@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:p="property" Id="RVw0IQgkfDtNg3md7sHH9V" Version="0.75">
+<Document xmlns:p="property" Id="RVw0IQgkfDtNg3md7sHH9V" Version="0.77">
   <Patch Id="RFohkbpBvQHOrNjfuuFk8G">
     <Canvas Id="PLANHsnn1GBM3ywhZuM4vS" DefaultCategory="GStreamer">
       <!--
@@ -49,7 +49,7 @@
                 <Choice Kind="OperationDefinition" Name="Operation" />
                 <FullNameCategoryReference ID="Primitive" />
               </p:NodeReference>
-              <Patch Id="SlxCIC2UVGCOlsHFsJwjm4" ManuallySortedPins="true">
+              <Patch Id="SlxCIC2UVGCOlsHFsJwjm4">
                 <Node Bounds="368,329,85,22" AutoConnect="true" Id="Fx9YnrGapfwQP87FRFFVMD">
                   <p:NodeReference LastCategoryFullName="VL.Lib.GStreamer.Player" LastSymbolSource="VL.GStreamer.dll">
                     <Choice Kind="OperationNode" Name="Update" />
@@ -60,6 +60,9 @@
                   <Pin Id="S2rSBffczMhO01Q6AYg59z" Name="Play" Kind="InputPin" />
                   <Pin Id="L9X8KoURxFTMBi7JMde8TJ" Name="Seek" Kind="InputPin" />
                   <Pin Id="CFj7G9ufr7OPX91DIRaNHx" Name="Seek Time" Kind="InputPin" />
+                  <Pin Id="KCawTJ80G3YLnCGdG4BFIe" Name="Loop" Kind="InputPin" />
+                  <Pin Id="HbM90TDYfFMPzs09Z1ZPZw" Name="Loop Start Time" Kind="InputPin" />
+                  <Pin Id="TtGBELtinwyOv8xW7A9wvm" Name="Loop End Time" Kind="InputPin" />
                   <Pin Id="NhZ1eWJqol3ODmNUwqosJq" Name="Output" Kind="StateOutputPin" />
                   <Pin Id="GVhuom2wv7lNDJljfKzJYZ" Name="State" Kind="OutputPin" />
                   <Pin Id="L1W3DU7FkrNO9dNLR3OXmG" Name="Position" Kind="OutputPin" />
@@ -70,6 +73,9 @@
                 <Pin Id="PkzvWmA9KoWP02dgeZeOhV" Name="Play" Kind="InputPin" Bounds="65,4" />
                 <Pin Id="GR7LyWEMtvQPvejjg9Vldo" Name="Seek" Kind="InputPin" Bounds="95,4" />
                 <Pin Id="EiJNmka6maSOiphreAoJD6" Name="Seek Time" Kind="InputPin" Bounds="126,4" />
+                <Pin Id="Szm7CpM8Gi6PtfM1Ht8khD" Name="Loop" Kind="InputPin" Bounds="183,4" />
+                <Pin Id="Uhsyx9iUKMePOQFvFQvs0Y" Name="Loop Start Time" Kind="InputPin" Bounds="217,4" />
+                <Pin Id="S27oYkizbgOPRRo5kLT5dA" Name="Loop End Time" Kind="InputPin" Bounds="294,4" />
                 <Pin Id="DK0W8p0bd3yP9bfMJmLknJ" Name="Output" Kind="OutputPin" Bounds="4,19" />
                 <Pin Id="C2TERsfkJKlLSYis2Wmyda" Name="State" Kind="OutputPin" Bounds="46,19" />
                 <Pin Id="D9LVRl7osYxQNurLEeWuDB" Name="Position" Kind="OutputPin" Bounds="80,19" />
@@ -101,11 +107,237 @@
                 <Pin Id="VVxsuGdW0GkPHvYM6RHAyn" Name="Video Frames" Kind="OutputPin" />
               </Patch>
             </Node>
+            <!--
+
+    ************************ Clock ************************
+
+-->
+            <Node Name="Clock" Bounds="363,587,123,85" Id="P8lfYMQggTyMrn11C5js5z">
+              <p:NodeReference>
+                <Choice Kind="OperationDefinition" Name="Operation" />
+                <FullNameCategoryReference ID="Primitive" />
+              </p:NodeReference>
+              <Patch Id="LNzXX8mkrr4MwEAx5cLnpD">
+                <Node Bounds="386,622,34,13" AutoConnect="true" Id="KEDpxVtdD6qQdgX3xvt3Vk">
+                  <p:NodeReference LastCategoryFullName="VL.Lib.GStreamer.Player" LastSymbolSource="VL.GStreamer.dll">
+                    <Choice Kind="OperationNode" Name="Clock" />
+                    <FullNameCategoryReference ID="VL.Lib.GStreamer.Player" />
+                  </p:NodeReference>
+                  <Pin Id="HERQh7MsPHhL7Kuyd0tE8n" Name="Input" Kind="StateInputPin" />
+                  <Pin Id="L3AUtOTZ2GWLSdqPV2lGsD" Name="Output" Kind="StateOutputPin" />
+                  <Pin Id="LSM1rZMzsuoOuTyf1ZmCFU" Name="Clock" Kind="OutputPin" />
+                </Node>
+                <Pin Id="FCxqxYGurm0ONA6MBfFTJY" Name="Input" Kind="InputPin" />
+                <Pin Id="TQBcShn7YcsQQKXyYtlYIQ" Name="Output" Kind="OutputPin" />
+                <Pin Id="M4AsH3JLWDhLgbOwacv7Uw" Name="Clock" Kind="OutputPin" />
+              </Patch>
+            </Node>
           </Canvas>
           <ProcessDefinition Id="VXo6dw4Rh8BMBCyUuXuaNJ">
             <Fragment Id="Cx7ZKjVC5a3M7uQ3BgRPMk" Patch="BYs1Fmuj8jTNi1gBXiQzo0" Enabled="true" />
             <Fragment Id="QdJBsxVSJxiLPVHluOBPbn" Patch="VchXGlKSsdaLS13MS2dKPT" Enabled="true" />
             <Fragment Id="Ce5DbS6YGaBNzieth5QHoy" Patch="EPWK3w9fupNLO8OIUFavWx" Enabled="true" />
+            <Fragment Id="AtDejs7R1xwPXyzcXpyho6" Patch="P8lfYMQggTyMrn11C5js5z" Enabled="true" />
+          </ProcessDefinition>
+        </Patch>
+      </Node>
+      <!--
+
+    ************************ ServerClock ************************
+
+-->
+      <Node Name="ServerClock" Bounds="312,230" Id="Iy6f0sxtmUvO4dc6OM6bE7">
+        <p:NodeReference>
+          <Choice Kind="ForwardDefinition" Name="Forward" />
+          <FullNameCategoryReference ID="Primitive" />
+        </p:NodeReference>
+        <p:TypeAnnotation LastCategoryFullName="VL.Lib.GStreamer" LastSymbolSource="VL.GStreamer.dll">
+          <Choice Kind="TypeFlag" Name="ServerClock" />
+        </p:TypeAnnotation>
+        <p:ForwardAllNodesOfTypeDefinition p:Type="Boolean">false</p:ForwardAllNodesOfTypeDefinition>
+        <Patch Id="PeyrGXUYykoOAgltLl8eCA">
+          <Canvas Id="BrdtAX6UlZANG45c25meLc">
+            <!--
+
+    ************************ Create ************************
+
+-->
+            <Node Name="Create" Bounds="342,148,100,50" Id="UM4IR84Pc11OGKGUKaCZC3">
+              <p:NodeReference>
+                <Choice Kind="OperationDefinition" Name="Operation" />
+                <FullNameCategoryReference ID="Primitive" />
+              </p:NodeReference>
+              <Patch Id="RRCrpurtRoFLxfLYQdrKzT" IsExplicitlyHidden="true">
+                <Node Bounds="342,148,10,10" AutoConnect="true" Id="AtT0443TwbsLUgKbbGbIuW">
+                  <p:NodeReference LastCategoryFullName="VL.Lib.GStreamer.ServerClock" LastSymbolSource="VL.GStreamer.dll">
+                    <Choice Kind="OperationNode" Name="Create" />
+                    <FullNameCategoryReference ID="VL.Lib.GStreamer.ServerClock" />
+                  </p:NodeReference>
+                  <Pin Id="TqPmd5l7eyjNAg4MV7HEHJ" Name="Output" Kind="StateOutputPin" />
+                </Node>
+              </Patch>
+            </Node>
+            <!--
+
+    ************************ Update ************************
+
+-->
+            <Node Name="Update" Bounds="342,298,100,50" Id="TKYFcQu7JK3QZFUnVxQdB8">
+              <p:NodeReference>
+                <Choice Kind="OperationDefinition" Name="Operation" />
+                <FullNameCategoryReference ID="Primitive" />
+              </p:NodeReference>
+              <Patch Id="GZbRP54pn3EQB1Te9aUuYH" IsExplicitlyHidden="true">
+                <Node Bounds="342,298,10,10" AutoConnect="true" Id="VSgh5WMXKtvPDiIMZ5Itf5">
+                  <p:NodeReference LastCategoryFullName="VL.Lib.GStreamer.ServerClock" LastSymbolSource="VL.GStreamer.dll">
+                    <Choice Kind="OperationNode" Name="Update" />
+                    <FullNameCategoryReference ID="VL.Lib.GStreamer.ServerClock" />
+                  </p:NodeReference>
+                  <Pin Id="RiiUiBPJ3SPL1htYdFq0Uq" Name="Input" Kind="StateInputPin" />
+                  <Pin Id="VYIanzmUS9TOqEc47nPdrZ" Name="Clock" Kind="InputPin" />
+                  <Pin Id="PLHnrmplAiqOZ17UvRFr82" Name="Address" Kind="InputPin" />
+                  <Pin Id="ROeRcaHE2gZLvWVRnivNpb" Name="Port" Kind="InputPin" />
+                  <Pin Id="IjK2hI0LLQNNmvcM6JOY7i" Name="Output" Kind="StateOutputPin" />
+                  <Pin Id="BISayTUR5a4MS8ZVmoe4nt" Name="Result" Kind="OutputPin" />
+                </Node>
+                <Pin Id="LWqVvx4rB98NZwsyKdAUY8" Name="Input" Kind="InputPin" />
+                <Pin Id="OdSrdpBcy0dM9mwMON1h21" Name="Clock" Kind="InputPin" />
+                <Pin Id="J0By8Lb9ITgL0u1BLfFZgT" Name="Address" Kind="InputPin" />
+                <Pin Id="JIwXcUP582iOH6Ow4oVGbx" Name="Port" Kind="InputPin" />
+                <Pin Id="LX3sJZP0zUsQcV35Oo4J8u" Name="Output" Kind="OutputPin" />
+                <Pin Id="HaYvcUfhmoVOq2uxsPx0Ts" Name="Result" Kind="OutputPin" />
+              </Patch>
+            </Node>
+            <!--
+
+    ************************ Address ************************
+
+-->
+            <Node Name="Address" Bounds="549,119,117,85" Id="KM4M3b12j0lLuX2rOQVnNQ">
+              <p:NodeReference>
+                <Choice Kind="OperationDefinition" Name="Operation" />
+                <FullNameCategoryReference ID="Primitive" />
+              </p:NodeReference>
+              <Patch Id="HK7habphvirOocmrVFHmMK" IsExplicitlyHidden="true">
+                <Node Bounds="566,154,46,13" AutoConnect="true" Id="QJtB4GrpdG8MaKt7nVhJv0">
+                  <p:NodeReference LastCategoryFullName="VL.Lib.GStreamer.ServerClock" LastSymbolSource="VL.GStreamer.dll">
+                    <Choice Kind="OperationNode" Name="Address" />
+                    <FullNameCategoryReference ID="VL.Lib.GStreamer.ServerClock" />
+                  </p:NodeReference>
+                  <Pin Id="KDfbxgnC7qTLzEUuBGDQG5" Name="Input" Kind="StateInputPin" />
+                  <Pin Id="VS0fQsM3lC2Ohr3LXMPQJh" Name="Output" Kind="StateOutputPin" />
+                  <Pin Id="LVabv8BI2cRPUdhqBHjpn9" Name="Address" Kind="OutputPin" />
+                </Node>
+                <Pin Id="J5CYdLuYFdoOVthZ4MJPjg" Name="Input" Kind="InputPin" />
+                <Pin Id="UWSpL2JpO2yLjrB7ZhEo2A" Name="Output" Kind="OutputPin" />
+                <Pin Id="FhW6CuXQ7XZLdaIUoMYnVL" Name="Address" Kind="OutputPin" />
+              </Patch>
+            </Node>
+            <!--
+
+    ************************ Port ************************
+
+-->
+            <Node Name="Port" Bounds="548,270,126,85" Id="AcsJW3QcgvlOvYvw3CCsdc">
+              <p:NodeReference>
+                <Choice Kind="OperationDefinition" Name="Operation" />
+                <FullNameCategoryReference ID="Primitive" />
+              </p:NodeReference>
+              <Patch Id="HoavM43o1oTOuqopOP7n93" IsExplicitlyHidden="true">
+                <Node Bounds="574,305,51,22" AutoConnect="true" Id="EgMSzrJCXAKQcSsBnoyXXx">
+                  <p:NodeReference LastCategoryFullName="VL.Lib.GStreamer.ServerClock" LastSymbolSource="VL.GStreamer.dll">
+                    <Choice Kind="OperationNode" Name="Port" />
+                    <FullNameCategoryReference ID="VL.Lib.GStreamer.ServerClock" />
+                  </p:NodeReference>
+                  <Pin Id="Dr5PY9uvPTjP1IaCu9Lqc7" Name="Input" Kind="StateInputPin" />
+                  <Pin Id="O1cGLatJTgyPPgEAwDBCVb" Name="Output" Kind="StateOutputPin" />
+                  <Pin Id="Gb6E1Y5keZKPWLvM6qR1iS" Name="Port" Kind="OutputPin" />
+                </Node>
+                <Pin Id="Nx8Vpm0nBA6LiAao9ZrOeh" Name="Input" Kind="InputPin" />
+                <Pin Id="La6grb7N98kPMlmrZW5Iru" Name="Output" Kind="OutputPin" />
+                <Pin Id="NuqJJh6Jy8FLN31RClHCDT" Name="Port" Kind="OutputPin" />
+              </Patch>
+            </Node>
+          </Canvas>
+          <ProcessDefinition Id="FKCZvn1vYHCPLpJiXDV3iW">
+            <Fragment Id="R8pRAYgoAEKPd33xx8Fb6P" Patch="UM4IR84Pc11OGKGUKaCZC3" Enabled="true" />
+            <Fragment Id="UHSHeF1IAw5MJxEiFWo8E1" Patch="TKYFcQu7JK3QZFUnVxQdB8" Enabled="true" />
+            <Fragment Id="JzU8O2FTgeKLerCJBsAxNs" Patch="KM4M3b12j0lLuX2rOQVnNQ" Enabled="true" />
+            <Fragment Id="MZwZ5qQSssFOVSo4IbSSFc" Patch="AcsJW3QcgvlOvYvw3CCsdc" Enabled="true" />
+          </ProcessDefinition>
+        </Patch>
+      </Node>
+      <!--
+
+    ************************ ClientClock ************************
+
+-->
+      <Node Name="ClientClock" Bounds="314,279" Id="DwifHJBkg8yPed9x8jUkz6">
+        <p:NodeReference>
+          <Choice Kind="ForwardDefinition" Name="Forward" />
+          <FullNameCategoryReference ID="Primitive" />
+        </p:NodeReference>
+        <p:TypeAnnotation LastCategoryFullName="VL.Lib.GStreamer" LastSymbolSource="VL.GStreamer.dll">
+          <Choice Kind="TypeFlag" Name="ClientClock" />
+        </p:TypeAnnotation>
+        <p:ForwardAllNodesOfTypeDefinition p:Type="Boolean">false</p:ForwardAllNodesOfTypeDefinition>
+        <Patch Id="Sb1qtNndJ5xMhhLUF8gXuf">
+          <Canvas Id="ExCnMVqd2HiOqpfTbg2vbI">
+            <!--
+
+    ************************ Create ************************
+
+-->
+            <Node Name="Create" Bounds="316,142,100,50" Id="KbZcK9uZ0vjNHRmQdjQY1Y">
+              <p:NodeReference>
+                <Choice Kind="OperationDefinition" Name="Operation" />
+                <FullNameCategoryReference ID="Primitive" />
+              </p:NodeReference>
+              <Patch Id="Ulyxg9kIEu1LNM8WXWC49c" IsExplicitlyHidden="true">
+                <Node Bounds="316,142,10,10" AutoConnect="true" Id="QdIbk8uNgRwM9iT5ClK5aV">
+                  <p:NodeReference LastCategoryFullName="VL.Lib.GStreamer.ClientClock" LastSymbolSource="VL.GStreamer.dll">
+                    <Choice Kind="OperationNode" Name="Create" />
+                    <FullNameCategoryReference ID="VL.Lib.GStreamer.ClientClock" />
+                  </p:NodeReference>
+                  <Pin Id="PRDp7n5p8LGPRCJ2kdkr4q" Name="Output" Kind="StateOutputPin" />
+                </Node>
+              </Patch>
+            </Node>
+            <!--
+
+    ************************ Update ************************
+
+-->
+            <Node Name="Update" Bounds="316,292,100,50" Id="VKRbIb6uomdPh0hYQSRWSG">
+              <p:NodeReference>
+                <Choice Kind="OperationDefinition" Name="Operation" />
+                <FullNameCategoryReference ID="Primitive" />
+              </p:NodeReference>
+              <Patch Id="HRxVEcydbn3NtUhsX8iUH0" IsExplicitlyHidden="true">
+                <Node Bounds="316,292,10,10" AutoConnect="true" Id="QAtwAFKGQAxMJ3mOYC1nUe">
+                  <p:NodeReference LastCategoryFullName="VL.Lib.GStreamer.ClientClock" LastSymbolSource="VL.GStreamer.dll">
+                    <Choice Kind="OperationNode" Name="Update" />
+                    <FullNameCategoryReference ID="VL.Lib.GStreamer.ClientClock" />
+                  </p:NodeReference>
+                  <Pin Id="GSTItQvNykHOirjwbx87fz" Name="Input" Kind="StateInputPin" />
+                  <Pin Id="GBWtjFU5ClzL8V8iaxRNRN" Name="Address" Kind="InputPin" />
+                  <Pin Id="SHTco0oYGpINo5OZhuL2b1" Name="Port" Kind="InputPin" />
+                  <Pin Id="OJofcNvZgXrPkg7keFOu69" Name="Base Time" Kind="InputPin" />
+                  <Pin Id="T4BBDLaaZJMMSnGAdLwvjl" Name="Output" Kind="StateOutputPin" />
+                  <Pin Id="MErZ4GDGVVkP1JCCl74yt1" Name="Result" Kind="OutputPin" />
+                </Node>
+                <Pin Id="ICnyekJzxzwPpUoXHRZrX2" Name="Input" Kind="InputPin" />
+                <Pin Id="TrF9mREFCyrMulsB7kGJMR" Name="Address" Kind="InputPin" />
+                <Pin Id="Mufk56ZnvyQLk1gjEDClVt" Name="Port" Kind="InputPin" />
+                <Pin Id="RTNW9WxRcDaPyswgPixuBL" Name="Base Time" Kind="InputPin" />
+                <Pin Id="EjBYcCzyfKBLGJRTcv0KHk" Name="Output" Kind="OutputPin" />
+                <Pin Id="EbIvxMHDzHyMC7NXMt9YC0" Name="Result" Kind="OutputPin" />
+              </Patch>
+            </Node>
+          </Canvas>
+          <ProcessDefinition Id="I6Xy9QxtxXGNDBcUgeyuxy">
+            <Fragment Id="AGlW1twSEuKOnTdXYeJ1IZ" Patch="KbZcK9uZ0vjNHRmQdjQY1Y" Enabled="true" />
+            <Fragment Id="JesV9s5OgFqLKdldkTsBv0" Patch="VKRbIb6uomdPh0hYQSRWSG" Enabled="true" />
           </ProcessDefinition>
         </Patch>
       </Node>
