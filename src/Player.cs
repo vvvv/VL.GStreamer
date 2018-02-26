@@ -27,7 +27,7 @@ namespace VL.Lib.GStreamer
         bool FSeeking, FPlay, FLoop, FEos;
         float FPosition, FDuration = -1f;
         float FLoopStartTime, FLoopEndTime;
-        State FState;
+        State FTargetState, FCurrentState;
 
         public Player(VideoFormat format = VideoFormat.Bgra)
         {
@@ -55,6 +55,7 @@ namespace VL.Lib.GStreamer
 
             playbin["video-sink"] = videosink;
             playbin["audio-sink"] = audiosink;
+            playbin.SetState(FTargetState = State.Ready);
         }
 
         public void Dispose()
@@ -121,7 +122,7 @@ namespace VL.Lib.GStreamer
                 case MessageType.StateChanged:
                     State oldState, newState, pending;
                     msg.ParseStateChanged(out oldState, out newState, out pending);
-                    FState = newState;
+                    FCurrentState = newState;
                     FEos = false;
                     //if (newState == State.Playing)
                     //{
@@ -132,6 +133,13 @@ namespace VL.Lib.GStreamer
                 case MessageType.StateDirty:
                     break;
                 case MessageType.StepDone:
+                    Format format;
+                    ulong amount, duration;
+                    double rate;
+                    bool flush, intermediate, eos;
+                    msg.ParseStepDone(out format, out amount, out rate, out flush, out intermediate, out duration, out eos);
+                    if (eos && FLoop)
+                        JumpToLoopStart(eos);
                     break;
                 case MessageType.ClockProvide:
                     //Clock c;
@@ -155,17 +163,10 @@ namespace VL.Lib.GStreamer
                 case MessageType.SegmentStart:
                     break;
                 case MessageType.SegmentDone:
-                    var seekStartTime = GetSeekStartTime(FLoopStartTime);
-                    var seekEndTime = GetSeekEndTime(FLoopEndTime);
                     if (FLoop)
-                    {
-                        var seekFlags = SeekFlags.Segment;
-                        if (FEos)
-                            seekFlags |= SeekFlags.Flush;
-                        playbin.Seek(1d, Format.Time, seekFlags, SeekType.Set, seekStartTime, SeekType.None, seekEndTime);
-                    }
+                        JumpToLoopStart(FEos);
                     else
-                        playbin.Seek(1d, Format.Time, SeekFlags.None, SeekType.None, 0, SeekType.Set, -1);
+                        Seek(SeekFlags.None, SeekType.None, 0, SeekType.Set, -1);
                     break;
                 case MessageType.DurationChanged:
                     FDuration = -1;
@@ -216,6 +217,16 @@ namespace VL.Lib.GStreamer
             }
         }
 
+        private void JumpToLoopStart(bool eos)
+        {
+            var seekStartTime = GetSeekStartTime(FLoopStartTime);
+            var seekEndTime = GetSeekEndTime(FLoopEndTime);
+            var seekFlags = SeekFlags.Segment;
+            if (eos)
+                seekFlags |= SeekFlags.Flush;
+            Seek(seekFlags, SeekType.Set, seekStartTime, SeekType.None, seekEndTime);
+        }
+
         public IObservable<IImage> VideoFrames => videoFrames;
         public IObservable<System.IO.Stream> AudioFrames { get; } = Observable.Empty<System.IO.Stream>();
 
@@ -225,6 +236,7 @@ namespace VL.Lib.GStreamer
             out float duration,
             string uri = "http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4", 
             bool play = false,
+            bool step = false,
             bool seek = false,
             float seekTime = 0f,
             bool loop = false,
@@ -241,19 +253,17 @@ namespace VL.Lib.GStreamer
             if (uri != FUri)
             {
                 FUri = uri;
-                var current = SwitchState(State.Ready);
+                SwitchState(State.Ready);
                 playbin["uri"] = uri;
-                SwitchState(current);
+                SwitchState(FTargetState);
             }
 
             // Play or pause
             if (play != FPlay)
             {
                 FPlay = play;
-                if (play)
-                    playbin.SetState(State.Playing);
-                else
-                    playbin.SetState(State.Paused);
+                FTargetState = play ? State.Playing : State.Paused;
+                SwitchState(FTargetState);
             }
 
             // Seeking and looping
@@ -295,17 +305,23 @@ namespace VL.Lib.GStreamer
             }
             if (doSeek)
             {
-                if (playbin.Seek(1d, Format.Time, seekFlags, seekStartType, seekStartTime, seekEndType, seekEndTime))
+                if (Seek(seekFlags, seekStartType, seekStartTime, seekEndType, seekEndTime))
                 {
-                    FSeeking = seekFlags.HasFlag(SeekFlags.Flush);
                     FLoopStartTime = loopStartTime;
                     FLoopEndTime = loopEndTime;
                 }
             }
             FLoop = loop;
 
+            // Stepping
+            if (step)
+            {
+                var stepEvent = new Event(Format.Buffers, 1UL, 1d, true, false);
+                playbin.SendEvent(stepEvent);
+            }
+
             // Current position and duration tracking
-            state = FState;
+            state = FCurrentState;
             if (state >= State.Paused)
             {
                 //if (!FSeeking)
@@ -355,14 +371,27 @@ namespace VL.Lib.GStreamer
             return Math.Max((long)(seekTime * Constants.SECOND), 0);
         }
 
+        bool Seek(SeekFlags seekFlags, SeekType start_type, long start, SeekType stop_type, long stop)
+        {
+            // Seeks without the GST_SEEK_FLAG_FLUSH should only be done when the pipeline is in the PLAYING state. 
+            // Executing a non-flushing seek in the PAUSED state might deadlock because the pipeline streaming threads might be blocked in the sinks.
+            if (FCurrentState != State.Playing)
+                seekFlags |= SeekFlags.Flush;
+            if (videosink.Seek(1d, Format.Time, seekFlags | SeekFlags.Accurate, start_type, start, stop_type, stop))
+            {
+                FSeeking = seekFlags.HasFlag(SeekFlags.Flush);
+                return true;
+            }
+            return false;
+        }
+
         public Clock Clock => playbin.Clock;
 
-        State SwitchState(State state)
+        void SwitchState(State state)
         {
             playbin.SetState(state);
             State c, p;
             playbin.GetState(out c, out p, Constants.CLOCK_TIME_NONE);
-            return FPlay ? State.Playing : State.Paused;
         }
 
         //// Extract some metadata from the streams and print it on the screen

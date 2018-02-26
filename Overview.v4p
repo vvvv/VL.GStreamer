@@ -33,11 +33,11 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="44">
-   <BOUNDS type="Box" left="3612" top="1092" width="480" height="480">
+   <BOUNDS type="Box" left="3507" top="1092" width="480" height="480">
    </BOUNDS>
-   <BOUNDS type="Node" left="3612" top="1092" width="0" height="0">
+   <BOUNDS type="Node" left="3507" top="1092" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="1">
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -49,15 +49,15 @@
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" values="Play">
    </PIN>
-   <PIN pinname="X Input Value" slicecount="1" values="1">
+   <PIN pinname="X Input Value" slicecount="1" values="0">
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="45">
-   <BOUNDS type="Box" left="4305" top="1372" width="693" height="210">
+   <BOUNDS type="Box" left="5320" top="1981" width="693" height="210">
    </BOUNDS>
-   <BOUNDS type="Node" left="4305" top="1372" width="0" height="0">
+   <BOUNDS type="Node" left="5320" top="1981" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="50">
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -95,9 +95,9 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="58">
-   <BOUNDS type="Box" left="5145" top="1253" width="480" height="480">
+   <BOUNDS type="Box" left="4704" top="1120" width="480" height="480">
    </BOUNDS>
-   <BOUNDS type="Node" left="5145" top="1253" width="0" height="0">
+   <BOUNDS type="Node" left="4704" top="1120" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0">
    </PIN>
@@ -164,38 +164,6 @@
    </LINK>
    <LINK srcnodeid="77" srcpinname="Layer" dstnodeid="11" dstpinname="Layers">
    </LINK>
-   <NODE id="82" systemname="Player (GStreamer)" filename="C:\Users\elias\dev\misc\VL.GStreamer\vl\VVVV.GStreamer.Playbin.vl" nodename="Playbin (GStreamer)" componentmode="Hidden" hiddenwhenlocked="0" managers="">
-   <BOUNDS type="Node" left="2891" top="2527" width="4291" height="252">
-   </BOUNDS>
-   <BOUNDS type="Box" left="0" top="840" width="2240" height="1680">
-   </BOUNDS>
-   <BOUNDS type="Window" left="0" top="0" width="5600" height="4200">
-   </BOUNDS>
-   <PIN pinname="Uri" visible="1">
-   </PIN>
-   <PIN pinname="Stream 2" visible="1">
-   </PIN>
-   <PIN pinname="Position" visible="1">
-   </PIN>
-   <PIN pinname="Position 2" visible="1">
-   </PIN>
-   <PIN pinname="Seek" visible="1" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Seek Time" visible="1" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Loop Start Time" visible="1" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Loop End Time" visible="1" slicecount="1" values="-1">
-   </PIN>
-   <PIN pinname="Loop" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="82" srcpinname="Stream" dstnodeid="32" dstpinname="Data">
-   </LINK>
-   <LINK srcnodeid="44" srcpinname="Y Output Value" dstnodeid="82" dstpinname="Play">
-   </LINK>
-   <LINK srcnodeid="82" srcpinname="Position" dstnodeid="51" dstpinname="Y Input Value">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="83">
    <BOUNDS type="Box" left="2898" top="630" width="4858" height="231">
    </BOUNDS>
@@ -212,8 +180,6 @@
    <PIN pinname="Descriptive Name" slicecount="1" values="Uri">
    </PIN>
    </NODE>
-   <LINK srcnodeid="83" srcpinname="Output String" dstnodeid="82" dstpinname="Uri">
-   </LINK>
    <NODE systemname="Timing (Debug)" nodename="Timing (Debug)" componentmode="Hidden" id="84">
    <BOUNDS type="Node" left="9366" top="4802" width="100" height="100">
    </BOUNDS>
@@ -234,10 +200,6 @@
    </NODE>
    <LINK srcnodeid="84" srcpinname="frames per second" dstnodeid="85" dstpinname="Y Input Value">
    </LINK>
-   <LINK srcnodeid="45" srcpinname="Y Output Value" dstnodeid="82" dstpinname="Seek Time">
-   </LINK>
-   <LINK srcnodeid="58" srcpinname="Y Output Value" dstnodeid="82" dstpinname="Seek">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="100">
    <BOUNDS type="Box" left="6482" top="1435" width="693" height="210">
    </BOUNDS>
@@ -252,6 +214,8 @@
    <PIN pinname="Descriptive Name" slicecount="1" values="|Loop Start Time|">
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="0">
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="101">
@@ -269,13 +233,15 @@
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="0">
+   </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="102">
-   <BOUNDS type="Box" left="5789" top="1274" width="480" height="480">
+   <BOUNDS type="Box" left="5908" top="1050" width="480" height="480">
    </BOUNDS>
-   <BOUNDS type="Node" left="5789" top="1274" width="0" height="0">
+   <BOUNDS type="Node" left="5908" top="1050" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="1">
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -287,23 +253,81 @@
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" values="Loop">
    </PIN>
-   <PIN pinname="X Input Value" slicecount="1" values="1">
+   <PIN pinname="X Input Value" slicecount="1" values="0">
    </PIN>
    </NODE>
-   <LINK srcnodeid="102" srcpinname="Y Output Value" dstnodeid="82" dstpinname="Loop">
-   </LINK>
-   <LINK srcnodeid="100" srcpinname="Y Output Value" dstnodeid="82" dstpinname="Loop Start Time">
-   </LINK>
-   <LINK srcnodeid="101" srcpinname="Y Output Value" dstnodeid="82" dstpinname="Loop End Time">
-   </LINK>
    <NODE id="-6" systemname="MainLoop (VVVV)" nodename="MainLoop (VVVV)" componentmode="Hidden">
    <BOUNDS type="Node" left="9359" top="4452" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Maximum Foreground FPS" slicecount="1" values="60">
+   <PIN pinname="Maximum Foreground FPS" slicecount="1" values="120">
    </PIN>
    <PIN pinname="Time Mode" slicecount="1" values="Raw">
    </PIN>
-   <PIN pinname="Maximum Background FPS" slicecount="1" values="60">
+   <PIN pinname="Maximum Background FPS" slicecount="1" values="120">
    </PIN>
    </NODE>
+   <NODE id="107" systemname="Player (GStreamer)" filename="C:\Users\elias\dev\misc\VL.GStreamer\vl\VVVV.GStreamer.Playbin.vl" nodename="Playbin (GStreamer)" componentmode="Hidden" hiddenwhenlocked="0" managers="">
+   <BOUNDS type="Node" left="2891" top="2527" width="4291" height="252">
+   </BOUNDS>
+   <BOUNDS type="Box" left="0" top="840" width="2240" height="1680">
+   </BOUNDS>
+   <BOUNDS type="Window" left="0" top="0" width="5600" height="4200">
+   </BOUNDS>
+   <PIN pinname="Step" visible="1" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="107" srcpinname="Stream" dstnodeid="32" dstpinname="Data">
+   </LINK>
+   <LINK srcnodeid="44" srcpinname="Y Output Value" dstnodeid="107" dstpinname="Play">
+   </LINK>
+   <LINK srcnodeid="107" srcpinname="Position" dstnodeid="51" dstpinname="Y Input Value">
+   </LINK>
+   <LINK srcnodeid="83" srcpinname="Output String" dstnodeid="107" dstpinname="Uri">
+   </LINK>
+   <LINK srcnodeid="45" srcpinname="Y Output Value" dstnodeid="107" dstpinname="Seek Time">
+   </LINK>
+   <LINK srcnodeid="58" srcpinname="Y Output Value" dstnodeid="107" dstpinname="Seek">
+   </LINK>
+   <LINK srcnodeid="102" srcpinname="Y Output Value" dstnodeid="107" dstpinname="Loop">
+   </LINK>
+   <LINK srcnodeid="100" srcpinname="Y Output Value" dstnodeid="107" dstpinname="Loop Start Time">
+   </LINK>
+   <LINK srcnodeid="101" srcpinname="Y Output Value" dstnodeid="107" dstpinname="Loop End Time">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="109">
+   <BOUNDS type="Box" left="4116" top="1099" width="480" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="4116" top="1099" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Bang">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Step">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="109" srcpinname="Y Output Value" dstnodeid="107" dstpinname="Step">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="110">
+   <BOUNDS type="Box" left="4886" top="4641" width="693" height="210">
+   </BOUNDS>
+   <BOUNDS type="Node" left="4886" top="4641" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="32" srcpinname="Drop Count" dstnodeid="110" dstpinname="Y Input Value">
+   </LINK>
    </PATCH>
