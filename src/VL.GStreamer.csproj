@@ -32,13 +32,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="gio-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f, processorArchitecture=MSIL">
-      <HintPath>packages\GstSharp.1.13.0.1\lib\net45\gio-sharp.dll</HintPath>
+      <HintPath>packages\GstSharp.1.14.2\lib\net45\gio-sharp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="glib-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f, processorArchitecture=MSIL">
-      <HintPath>packages\GstSharp.1.13.0.1\lib\net45\glib-sharp.dll</HintPath>
+      <HintPath>packages\GstSharp.1.14.2\lib\net45\glib-sharp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="gstreamer-sharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5cbf79803e97ff61, processorArchitecture=MSIL">
-      <HintPath>packages\GstSharp.1.13.0.1\lib\net45\gstreamer-sharp.dll</HintPath>
+      <HintPath>packages\GstSharp.1.14.2\lib\net45\gstreamer-sharp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -57,6 +60,7 @@
       <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.4.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -65,7 +69,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="VL.Core, Version=0.91.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\VL.Core.0.91.45-g90bfb6a5a4\lib\net461\VL.Core.dll</HintPath>
+      <HintPath>packages\VL.Core.0.91.146-gd6519d2052\lib\net461\VL.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WindowsBase" />
@@ -86,11 +90,11 @@
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="packages\GstSharp.1.13.0.1\build\GstSharp.targets" Condition="Exists('packages\GstSharp.1.13.0.1\build\GstSharp.targets')" />
+  <Import Project="packages\GstSharp.1.14.2\build\GstSharp.targets" Condition="Exists('packages\GstSharp.1.14.2\build\GstSharp.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\GstSharp.1.13.0.1\build\GstSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\GstSharp.1.13.0.1\build\GstSharp.targets'))" />
+    <Error Condition="!Exists('packages\GstSharp.1.14.2\build\GstSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\GstSharp.1.14.2\build\GstSharp.targets'))" />
   </Target>
 </Project>

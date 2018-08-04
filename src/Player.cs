@@ -316,7 +316,7 @@ namespace VL.Lib.GStreamer
             // Stepping
             if (step)
             {
-                var stepEvent = new Event(Format.Buffers, 1UL, 1d, true, false);
+                var stepEvent = Event.NewStep(Format.Buffers, 1UL, 1d, true, false);
                 playbin.SendEvent(stepEvent);
             }
 

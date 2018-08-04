@@ -1,4 +1,4 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50alpha35.18.dtd" >
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50alpha36.1.dtd" >
    <PATCH nodename="C:\Users\elias\dev\misc\VL.GStreamer\Overview.v4p" systemname="Overview" filename="C:\Users\elias\dev\misc\VL.GStreamer\Overview.v4p" scrollx="511" scrolly="-3">
    <BOUNDS type="Window" left="1127" top="238" width="17570" height="10290">
    </BOUNDS>
@@ -164,22 +164,6 @@
    </LINK>
    <LINK srcnodeid="77" srcpinname="Layer" dstnodeid="11" dstpinname="Layers">
    </LINK>
-   <NODE nodename="IOBox (String)" componentmode="InABox" id="83">
-   <BOUNDS type="Box" left="2898" top="630" width="4858" height="231">
-   </BOUNDS>
-   <BOUNDS type="Node" left="2898" top="630" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Input String" slicecount="1" visible="1" values="C:\Users\elias\Desktop\sintel_trailer-1080p.mp4">
-   </PIN>
-   <PIN pinname="Default" slicecount="1" values="http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4">
-   </PIN>
-   <PIN pinname="File Mask" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
-   </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Uri">
-   </PIN>
-   </NODE>
    <NODE systemname="Timing (Debug)" nodename="Timing (Debug)" componentmode="Hidden" id="84">
    <BOUNDS type="Node" left="9366" top="4802" width="100" height="100">
    </BOUNDS>
@@ -275,14 +259,14 @@
    </BOUNDS>
    <PIN pinname="Step" visible="1" slicecount="1" values="0">
    </PIN>
+   <PIN pinname="Uri" visible="1">
+   </PIN>
    </NODE>
    <LINK srcnodeid="107" srcpinname="Stream" dstnodeid="32" dstpinname="Data">
    </LINK>
    <LINK srcnodeid="44" srcpinname="Y Output Value" dstnodeid="107" dstpinname="Play">
    </LINK>
    <LINK srcnodeid="107" srcpinname="Position" dstnodeid="51" dstpinname="Y Input Value">
-   </LINK>
-   <LINK srcnodeid="83" srcpinname="Output String" dstnodeid="107" dstpinname="Uri">
    </LINK>
    <LINK srcnodeid="45" srcpinname="Y Output Value" dstnodeid="107" dstpinname="Seek Time">
    </LINK>
@@ -316,18 +300,24 @@
    </NODE>
    <LINK srcnodeid="109" srcpinname="Y Output Value" dstnodeid="107" dstpinname="Step">
    </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="110">
-   <BOUNDS type="Box" left="4886" top="4641" width="693" height="210">
+   <NODE systemname="SystemFolder (File)" nodename="SystemFolder (File)" componentmode="Hidden" id="110">
+   <BOUNDS type="Node" left="2877" top="196" width="100" height="100">
    </BOUNDS>
-   <BOUNDS type="Node" left="4886" top="4641" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Units" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Precision" slicecount="1" values="4">
-   </PIN>
-   <PIN pinname="Value Type" slicecount="1" values="Integer">
+   <PIN pinname="Output" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="32" srcpinname="Drop Count" dstnodeid="110" dstpinname="Y Input Value">
+   <NODE systemname="Add (String)" nodename="Add (String)" componentmode="Hidden" id="111">
+   <BOUNDS type="Node" left="2877" top="560" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input 1" visible="1">
+   </PIN>
+   <PIN pinname="Input 2" slicecount="1" values="lib\assets\videos\Birds_H264.mp4">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="110" srcpinname="Output" dstnodeid="111" dstpinname="Input 1">
+   </LINK>
+   <LINK srcnodeid="111" srcpinname="Output" dstnodeid="107" dstpinname="Uri">
    </LINK>
    </PATCH>
