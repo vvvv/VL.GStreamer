@@ -347,7 +347,6 @@
   </Patch>
   <NugetDependency Id="MEW3C2kg0D3MfHGZaPGggs" Location="VL.Core" Version="0.73.60-g216609aa5b" />
   <NugetDependency Id="HBVc8pai0UzL32sCkz83wU" Location="VL.CoreLib" Version="0.73.60-g216609aa5b" />
-  <NugetDependency Id="T1SwfXqRm4vOpF9QEGDpmC" Location="VL.CoreLib.VVVV" Version="0.73.60-g216609aa5b" />
-  <PlatformDependency Id="VxPqZeBOTw4MxvZ2D7OM6g" Location="./lib/net461/VL.GStreamer.dll" />
-  <PlatformDependency Id="BotuwNnMdSGMHg9sBwxUWF" Location="./lib/net461/gstreamer-sharp.dll" />
+  <PlatformDependency Id="VxPqZeBOTw4MxvZ2D7OM6g" Location="VL.GStreamer.dll" />
+  <PlatformDependency Id="BotuwNnMdSGMHg9sBwxUWF" Location="gstreamer-sharp.dll" />
 </Document>
