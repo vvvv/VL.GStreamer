@@ -3,5 +3,11 @@
   "version": "1.0",
   "publicReleaseRefSpec": [
     "^refs/tags/v\\d+\\.\\d+" // we release using tags starting with vN.N
-  ]
+  ],
+  "cloudBuild": {
+    "buildNumber": {
+      "enabled": true
+    },
+    "setVersionVariables": true
+  }
 }
