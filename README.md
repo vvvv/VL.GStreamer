@@ -1,8 +1,14 @@
 # VL.GStreamer
-A set of VL nodes for the multimedia framework GStreamer
+A set of nodes to use the multimedia framework GStreamer inside vvvv beta and gamma
 
 ## Installation
 - Install [vvvv beta](https://vvvv.org/downloads) (minimum required version is beta38.1)
 - Install [GStreamer 1.14](https://gstreamer.freedesktop.org/data/pkg/windows/1.14.4) to default location (`C:\gstreamer`) using the Complete option in the installer
-- Build `src/VL.GStreamer.sln` with [Visual Studio](https://www.visualstudio.com/downloads)
-- Open `Overview.v4p` patch
+- Inside from the VL patch editor open the nuget command line and type `nuget install VL.GStreamer -prerelease`
+
+## Building
+- Install [Visual Studio 2017](https://www.visualstudio.com/downloads)
+- Open `src/VL.GStreamer.sln` and build
+
+## Example
+For now there's only one example found in `lib\packs\VL.GStreamer\Overview.v4p`
