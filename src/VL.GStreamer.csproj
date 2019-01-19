@@ -25,7 +25,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="VL.Core" Version="0.95.27-g0ee614c2f0" />
+    <PackageReference Include="VL.Core" Version="0.95.27-g0ee614c2f0" Pack="false" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />
