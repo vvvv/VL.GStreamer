@@ -1,14 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
-    <OutputPath>..\lib\</OutputPath>
+    <TargetFramework>net46</TargetFramework>
+    <PackageId>$(AssemblyName)</PackageId>
+    <Description>A set of VL nodes for the multimedia framework GStreamer</Description>
+    <EmitNuSpec>true</EmitNuSpec>
+    <IncludeFrameworkReferencesInPackage>false</IncludeFrameworkReferencesInPackage>
+    <Authors>vvvv group</Authors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Copyright>Copyright © 2019 by vvvv group. All rights reserved.</Copyright>
+    <PackageLicenseUrl>https://choosealicense.com/licenses/lgpl-3.0</PackageLicenseUrl>
+    <PackageProjectUrl>https://vvvv.org</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/vvvv/VL.GStreamer</RepositoryUrl>
+    <PackageTags>vvvv vl video playback player</PackageTags>
+    <PackageReleaseNotes>Latest version of GStreamer must be installed from https://gstreamer.freedesktop.org</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="GstSharp" Version="1.14.2" />
+    <PackageReference Include="GstSharp" Version="1.14.2" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.38">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.5-dev.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="VL.Core" Version="0.95.27-g0ee614c2f0" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageFile Include="..\**\*.vl" Kind="None" />
+    <PackageFile Include="..\**\*.v4p" Kind="None" />
   </ItemGroup>
 </Project>
