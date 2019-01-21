@@ -5,6 +5,8 @@ using System;
 using System.Diagnostics;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Threading;
+using VL.GStreamer;
 using VL.Lib.Basics.Imaging;
 using Constants = Gst.Constants;
 
@@ -25,16 +27,20 @@ namespace VL.Lib.GStreamer
 
         string FUri;
         bool FSeeking, FPlay, FLoop, FEos;
-        float FPosition, FDuration = -1f;
-        float FLoopStartTime, FLoopEndTime;
-        State FTargetState, FCurrentState;
+        long FPosition;
+        long FDuration = -1;
+        float FRate = 1f;
+        long FLoopStartTime = 0;
+        long FLoopEndTime = -1;
+        State FTargetState;
 
         public Player(VideoFormat format = VideoFormat.Bgra)
         {
             // Create the empty pipeline
-            playbin = ElementFactory.Make("playbin") as Pipeline;
+            playbin = ElementFactory.Make("playbin3") as Pipeline;
             bus = playbin.Bus;
             bus.AddSignalWatch();
+            bus.EnableSyncMessageEmission();
             bus.Message += Bus_Message;
             
             audiosink = ElementFactory.Make("autoaudiosink", "audiosink");
@@ -120,9 +126,7 @@ namespace VL.Lib.GStreamer
                 case MessageType.Buffering:
                     break;
                 case MessageType.StateChanged:
-                    State oldState, newState, pending;
-                    msg.ParseStateChanged(out oldState, out newState, out pending);
-                    FCurrentState = newState;
+                    msg.ParseStateChanged(out var oldState, out var newState, out var pending);
                     FEos = false;
                     //if (newState == State.Playing)
                     //{
@@ -133,14 +137,13 @@ namespace VL.Lib.GStreamer
                 case MessageType.StateDirty:
                     break;
                 case MessageType.StepDone:
-                    Format format;
-                    ulong amount, duration;
-                    double rate;
-                    bool flush, intermediate, eos;
-                    msg.ParseStepDone(out format, out amount, out rate, out flush, out intermediate, out duration, out eos);
-                    if (eos && FLoop)
-                        JumpToLoopStart(eos);
-                    break;
+                    {
+                        ulong amount, duration;
+                        double rate;
+                        bool flush, intermediate, eos;
+                        msg.ParseStepDone(out Format format, out amount, out rate, out flush, out intermediate, out duration, out eos);
+                        break;
+                    }
                 case MessageType.ClockProvide:
                     //Clock c;
                     //bool retry;
@@ -163,13 +166,45 @@ namespace VL.Lib.GStreamer
                 case MessageType.SegmentStart:
                     break;
                 case MessageType.SegmentDone:
-                    if (FLoop)
-                        JumpToLoopStart(FEos);
-                    else
-                        Seek(SeekFlags.None, SeekType.None, 0, SeekType.Set, -1);
-                    break;
+                    {
+                        var seekFlags = SeekFlags.Segment | SeekFlags.Accurate;
+                        msg.ParseSegmentDone(out Format format, out long position);
+                        if (FLoop && FLoopStartTime <= position && (position <= FLoopEndTime || FLoopEndTime < 0))
+                        {
+                            if (FRate >= 0)
+                            {
+                                if (position < FLoopEndTime)
+                                    // The loop end time was increased so continue from current position
+                                    Seek(seekFlags, SeekType.Set, position, SeekType.Set, FLoopEndTime);
+                                else
+                                    Seek(seekFlags, SeekType.Set, FLoopStartTime, SeekType.Set, FLoopEndTime);
+                            }
+                            else
+                            {
+                                if (FLoopStartTime < position)
+                                    // The loop start time was decreased so continune from current position
+                                    Seek(seekFlags, SeekType.Set, FLoopStartTime, SeekType.Set, position);
+                                else
+                                    Seek(seekFlags, SeekType.Set, FLoopStartTime, SeekType.Set, FLoopEndTime);
+                            }
+                        }
+                        else
+                        {
+                            if (FRate > 0)
+                            {
+                                if (position < FDuration)
+                                    Seek(seekFlags, SeekType.Set, position, SeekType.Set, -1);
+                            }
+                            else
+                            {
+                                if (position > 0)
+                                    Seek(seekFlags, SeekType.Set, 0, SeekType.Set, position);
+                            }
+                        }
+                        break;
+                    }
                 case MessageType.DurationChanged:
-                    FDuration = -1;
+                    playbin.QueryDuration(Format.Time, out FDuration);
                     break;
                 case MessageType.Latency:
                     break;
@@ -217,16 +252,6 @@ namespace VL.Lib.GStreamer
             }
         }
 
-        private void JumpToLoopStart(bool eos)
-        {
-            var seekStartTime = GetSeekStartTime(FLoopStartTime);
-            var seekEndTime = GetSeekEndTime(FLoopEndTime);
-            var seekFlags = SeekFlags.Segment;
-            if (eos)
-                seekFlags |= SeekFlags.Flush;
-            Seek(seekFlags, SeekType.Set, seekStartTime, SeekType.None, seekEndTime);
-        }
-
         public IObservable<IImage> VideoFrames => videoFrames;
         public IObservable<System.IO.Stream> AudioFrames { get; } = Observable.Empty<System.IO.Stream>();
 
@@ -236,14 +261,16 @@ namespace VL.Lib.GStreamer
             out float duration,
             string uri = "http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4", 
             bool play = false,
+            float rate = 1f,
             bool step = false,
-            bool seek = false,
             float seekTime = 0f,
-            bool loop = false,
+            bool seek = false,
             float loopStartTime = 0f,
-            float loopEndTime = -1f)
+            float loopEndTime = -1f,
+            bool loop = false)
         {
             // Media to play
+            var newStream = false;
             if (!Util.UriIsValid(uri))
             {
                 System.Uri _uri;
@@ -255,7 +282,78 @@ namespace VL.Lib.GStreamer
                 FUri = uri;
                 SwitchState(State.Ready);
                 playbin["uri"] = uri;
-                SwitchState(FTargetState);
+                newStream = true;
+            }
+
+            // Segment selection
+            var loopStartTime_ = GetSeekStartTime(loopStartTime);
+            if (loopStartTime_ != FLoopStartTime)
+            {
+                // Needs a seek if playing backward
+                if (rate < 0 && loopStartTime_ > FLoopStartTime)
+                    Seek(SeekFlags.Segment | SeekFlags.Flush, SeekType.Set, loopStartTime_, SeekType.None, 0);
+                FLoopStartTime = loopStartTime_;
+            }
+            var loopEndTime_ = GetSeekEndTime(loopEndTime);
+            if (loopEndTime_ != FLoopEndTime)
+            {
+                // Needs a seek if playing forward
+                if (rate > 0 && loopEndTime_ < FLoopEndTime)
+                    Seek(SeekFlags.Segment | SeekFlags.Flush, SeekType.None, 0, SeekType.Set, loopEndTime_);
+                FLoopEndTime = loopEndTime_;
+            }
+
+            // Looping is handled when we receive the SegmentEnd event
+            FLoop = loop;
+
+            if (newStream)
+            {
+                // Go into paused state so we can query duration and perform initial seek
+                SwitchState(State.Paused);
+
+                if (playbin.QueryDuration(Format.Time, out FDuration) && FDuration > 0)
+                {
+                    // Seek to set position
+                    seek = true;
+                }
+            }
+
+            // Playback rate
+            if (rate != FRate)
+            {
+                FRate = rate;
+                if (!seek)
+                {
+                    playbin.QueryPosition(Format.Time, out long p);
+                    seekTime = ((float)p) / Constants.SECOND;
+                    seek = true;
+                }
+            }
+
+            // Seeking
+            if (seek)
+            {
+                if (rate >= 0)
+                {
+                    // Playing forward
+                    var start = GetSeekStartTime(seekTime);
+                    var stop = start > FLoopEndTime ? -1 : FLoopEndTime;
+                    Seek(SeekFlags.Flush | SeekFlags.Accurate | SeekFlags.Segment, SeekType.Set, start, SeekType.Set, stop);
+                }
+                else
+                {
+                    // Playing backward
+                    var start = GetSeekEndTime(seekTime);
+                    var stop = start < FLoopStartTime ? 0 : FLoopStartTime;
+                    Seek(SeekFlags.Flush | SeekFlags.Accurate | SeekFlags.Segment, SeekType.Set, stop, SeekType.Set, start);
+                }
+            }
+
+            // Stepping
+            if (step)
+            {
+                var stepEvent = Event.NewStep(Format.Buffers, 1UL, Math.Abs(FRate), true, false);
+                playbin.SendEvent(stepEvent);
             }
 
             // Play or pause
@@ -266,86 +364,18 @@ namespace VL.Lib.GStreamer
                 SwitchState(FTargetState);
             }
 
-            // Seeking and looping
-            var doSeek = false;
-            var seekFlags = SeekFlags.None;
-            var seekStartType = SeekType.None;
-            var seekEndType = SeekType.None;
-            var seekStartTime = GetSeekStartTime(seekTime);
-            var seekEndTime = GetSeekEndTime(loopEndTime);
-            if (seek)
-            {
-                // Do a flushing seek
-                seekFlags |= SeekFlags.Flush;
-                seekStartType = SeekType.Set;
-                doSeek = true;
-            }
-            if (loop)
-            {
-                // Ensure seeking is done via segment
-                seekFlags |= SeekFlags.Segment;
-                seekEndType = SeekType.Set;
-                if (!FLoop)
-                {
-                    // Switching from non-looping to looping state - seek is needed
-                    doSeek = true;
-                }
-                else if (loopStartTime != FLoopStartTime || loopEndTime != FLoopEndTime)
-                {
-                    // The loop parameters changed - seek is needed
-                    doSeek = true;
-                }
-            }
-            else if (FLoop)
-            {
-                // Switching from looping to non-looping state - reset end of segment
-                seekEndTime = -1;
-                seekEndType = SeekType.Set;
-                doSeek = true;
-            }
-            if (doSeek)
-            {
-                if (Seek(seekFlags, seekStartType, seekStartTime, seekEndType, seekEndTime))
-                {
-                    FLoopStartTime = loopStartTime;
-                    FLoopEndTime = loopEndTime;
-                }
-            }
-            FLoop = loop;
-
-            // Stepping
-            if (step)
-            {
-                var stepEvent = Event.NewStep(Format.Buffers, 1UL, 1d, true, false);
-                playbin.SendEvent(stepEvent);
-            }
-
             // Current position and duration tracking
-            state = FCurrentState;
-            if (state >= State.Paused)
-            {
-                //if (!FSeeking)
-                {
-                    long p;
-                    playbin.QueryPosition(Format.Time, out p);
-                    FPosition = ((float)p) / Constants.SECOND;
-                }
-
-                if (FDuration == -1)
-                {
-                    long q;
-                    playbin.QueryDuration(Format.Time, out q);
-                    FDuration = ((float)q) / Constants.SECOND;
-                }
-
-                position = FPosition;
-                duration = FDuration;
-            }
+            if (playbin.QueryPosition(Format.Time, out FPosition))
+                position = ((float)FPosition) / Constants.SECOND;
             else
-            {
                 position = -1;
+
+            if (FDuration > 0)
+                duration = ((float)FDuration) / Constants.SECOND;
+            else
                 duration = -1;
-            }
+
+            state = playbin.CurrentState;
 
             // This is the blocking approach
             //if (!videosink.IsEos)
@@ -361,37 +391,35 @@ namespace VL.Lib.GStreamer
             //return ResourceProvider.Return(VideoFrame.Empty);
         }
 
-        private static long GetSeekEndTime(float loopEndTime)
+        private static long GetSeekEndTime(float seekTime)
         {
-            return Math.Max((long)(loopEndTime * Constants.SECOND), -1);
+            if (seekTime < 0f)
+                return -1;
+            return (long)(seekTime * Constants.SECOND);
         }
 
         private static long GetSeekStartTime(float seekTime)
         {
-            return Math.Max((long)(seekTime * Constants.SECOND), 0);
+            if (seekTime < 0f)
+                return 0;
+            return (long)(seekTime * Constants.SECOND);
         }
 
-        bool Seek(SeekFlags seekFlags, SeekType start_type, long start, SeekType stop_type, long stop)
+        bool Seek(SeekFlags flags, SeekType start_type, long start, SeekType stop_type, long stop)
         {
+            var format = Format.Time;
             // Seeks without the GST_SEEK_FLAG_FLUSH should only be done when the pipeline is in the PLAYING state. 
             // Executing a non-flushing seek in the PAUSED state might deadlock because the pipeline streaming threads might be blocked in the sinks.
-            if (FCurrentState != State.Playing)
-                seekFlags |= SeekFlags.Flush;
-            if (videosink.Seek(1d, Format.Time, seekFlags | SeekFlags.Accurate, start_type, start, stop_type, stop))
-            {
-                FSeeking = seekFlags.HasFlag(SeekFlags.Flush);
-                return true;
-            }
-            return false;
+            if (playbin.CurrentState == State.Paused/* || FEos || FSeeking*/)
+                flags |= SeekFlags.Flush;
+            return FSeeking = playbin.Seek(FRate, format, flags, start_type, start, stop_type, stop);
         }
 
         public Clock Clock => playbin.Clock;
 
         void SwitchState(State state)
         {
-            playbin.SetState(state);
-            State c, p;
-            playbin.GetState(out c, out p, Constants.CLOCK_TIME_NONE);
+            playbin.SetStateBlocking(state);
         }
 
         //// Extract some metadata from the streams and print it on the screen
