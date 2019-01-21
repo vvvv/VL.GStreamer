@@ -20,8 +20,8 @@ namespace VL.Lib.GStreamer
         private static void Application_Idle(object sender, EventArgs e)
         {
             var context = GLib.MainContext.Default;
-            if (context.HasPendingEvents)
-                context.RunIteration(may_block: true);
+            while (context.HasPendingEvents)
+                context.RunIteration();
         }
 
         public static void Init() { }
