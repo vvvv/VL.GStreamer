@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:p="property" Id="TdJOk7jwanaNthpCrRq3kj" LanguageVersion="2019.1.0-0488-g192745cf03" Version="0.128">
+<Document xmlns:p="property" Id="TdJOk7jwanaNthpCrRq3kj" LanguageVersion="2019.1.0-0552-g2194c41217" Version="0.128">
   <NugetDependency Id="GX4t4L5rhejPnEAl4nzqLP" Location="VL.CoreLib" Version="2019.1.0-488" />
   <Patch Id="IdRpWx8Jl7YLENVBpgNN3t">
     <Canvas Id="CFtgpSjW5UELLCgZ31eFWV" DefaultCategory="Main" CanvasType="FullCategory" />
@@ -102,11 +102,6 @@
             <Pin Id="Sd5iRDUuNFrLTODOOCQoIw" Name="ClientBounds" Kind="OutputPin" />
             <Pin Id="UsoeizjhIo1Qb6hZbOKcKX" Name="Render Time" Kind="OutputPin" />
           </Node>
-          <Pad Id="OZeLs878pkXOOLHqFHNsgl" Comment="Uri" Bounds="262,250,398,15" ShowValueBox="true" isIOBox="true" Value="C:\Users\joreg\Documents\repos\vl-libs\VL.GStreamer\help\Video\Birds_H264.mp4">
-            <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
-              <Choice Kind="TypeFlag" Name="String" />
-            </p:TypeAnnotation>
-          </Pad>
           <Pad Id="QUzP9ck0OVaMafBAab5A9f" Comment="Seek" Bounds="373,319,35,35" ShowValueBox="true" isIOBox="true" Value="False">
             <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
               <Choice Kind="TypeFlag" Name="Boolean" />
@@ -165,6 +160,20 @@
               <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
             </p:ValueBoxSettings>
           </Pad>
+          <Pad Id="HUR47LGh00pOiud2JSNwPb" Bounds="263,249,182,15" ShowValueBox="true" isIOBox="true" Value="Birds_H264.mp4">
+            <p:TypeAnnotation LastCategoryFullName="IO" LastSymbolSource="CoreLibBasics.vl">
+              <Choice Kind="TypeFlag" Name="Path" />
+            </p:TypeAnnotation>
+            <p:ValueBoxSettings />
+          </Pad>
+          <Node Bounds="261,271,55,19" Id="DNVnpMEV1CmLbs4tNnzw3g">
+            <p:NodeReference LastCategoryFullName="System.Conversion" LastSymbolSource="CoreLibBasics.vl">
+              <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+              <Choice Kind="OperationCallFlag" Name="ToString" />
+            </p:NodeReference>
+            <Pin Id="Pf3higZDdvBLeXArC55zsS" Name="Input" Kind="InputPin" />
+            <Pin Id="GmrdeSuCkt7QFBUAWYBg99" Name="Result" Kind="OutputPin" />
+          </Node>
         </Canvas>
         <Patch Id="SD1mae1zSKWMRysqriPDF3" Name="Create" />
         <Patch Id="B9Fbaj5K5CCLyIqwqUcVpt" Name="Update" />
@@ -179,14 +188,15 @@
         <Link Id="DzwRU6py5EsN1DrO5TKsGA" Ids="LEhH6SWFUIIPiKViGWOJ8l,RJtcUUQLkOrP7hluKM2gnF" />
         <Link Id="VZNZ5guVfooLSSOdImZCRJ" Ids="UTn9NN1yqPhOfFPvfbBJuu,RBHeuHB4rC3P1ibA6V3M50" />
         <Link Id="GW9uFNmRJCoM1uO6D5yY4c" Ids="M5AlDXsw9TbPaqOV0iGXvp,VxQbNW0qQ6NPX9ZN2VzIca" />
-        <Link Id="MN7WZbqUhQJMb3jdtSejHT" Ids="QUzP9ck0OVaMafBAab5A9f,KQn85LGWyxOQA3GMjkTQlP" />
         <Link Id="MMH9h3a328gN66FxXxIXo5" Ids="DCU6blWdRFvMK7PtI1WJ90,JRDk1uGACJrOS2QoKze09a" />
         <Link Id="IIUHIS7LhZXPhS79IgLTS9" Ids="GwZRqsK6YfWMhT6u4qXWKU,PEgcIYAvNz3OAAvKPNXZ6B" />
         <Link Id="F21CeB6uvQdPLKsHKZaRSL" Ids="LdlOqDoFxxzNYjqCsm2QKV,UICj3HYicANOceV8TfwV6Z" />
         <Link Id="FqPlKKbOCFIPRuhsEijF9b" Ids="JK2DgMXgfuxPgPof5ON01X,Ab7CgEcy8nyPi1uzWIJEV2" />
-        <Link Id="AVrBrYsXkGDNyPSOzqqVHi" Ids="OZeLs878pkXOOLHqFHNsgl,QfRs4A5WEqlL0oyjpjOHKg" />
         <Link Id="GVJkNE6FYLHMPUVFJpCfM7" Ids="UTn9NN1yqPhOfFPvfbBJuu,GtM3MJk1ecIO0F8LtF6RVY" />
         <Link Id="SFPutDNPDIMNYIKr4txm6s" Ids="T3qk9miUXH4MGgTp6ea7ga,ByV52w9gAeyPeRUD7vA67Z" />
+        <Link Id="CJak9HQHEttMmFFAVNnuCC" Ids="HUR47LGh00pOiud2JSNwPb,Pf3higZDdvBLeXArC55zsS" />
+        <Link Id="CJ9gyEpLvy3L4xiHW4oIfI" Ids="GmrdeSuCkt7QFBUAWYBg99,QfRs4A5WEqlL0oyjpjOHKg" />
+        <Link Id="CuOudZ7aPhVOWfwVfEQMcQ" Ids="QUzP9ck0OVaMafBAab5A9f,KQn85LGWyxOQA3GMjkTQlP" />
       </Patch>
     </Node>
   </Patch>
