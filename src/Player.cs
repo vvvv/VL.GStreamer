@@ -33,6 +33,7 @@ namespace VL.Lib.GStreamer
         long FLoopStartTime = 0;
         long FLoopEndTime = -1;
         State FTargetState;
+        float FVolume;
 
         public Player(VideoFormat format = VideoFormat.Bgra)
         {
@@ -267,7 +268,8 @@ namespace VL.Lib.GStreamer
             bool seek = false,
             float loopStartTime = 0f,
             float loopEndTime = -1f,
-            bool loop = false)
+            bool loop = false,
+            float volume = 1f)
         {
             // Media to play
             var newStream = false;
@@ -283,6 +285,12 @@ namespace VL.Lib.GStreamer
                 SwitchState(State.Ready);
                 playbin["uri"] = uri;
                 newStream = true;
+            }
+
+            if (volume != FVolume)
+            {
+                FVolume = volume;
+                playbin["volume"] = Math.Min(Math.Max(volume, 0), 1f);
             }
 
             // Segment selection
