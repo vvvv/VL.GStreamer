@@ -33,5 +33,6 @@
   <ItemGroup>
     <PackageFile Include="..\**\*.vl" Kind="None" TargetPath="%(RecursiveDir)%(Filename)%(Extension)" />
     <PackageFile Include="..\**\*.v4p" Kind="None" TargetPath="%(RecursiveDir)%(Filename)%(Extension)" />
+    <PackageFile Include="..\**\*.mp4" Kind="None" TargetPath="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 </Project>
