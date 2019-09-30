@@ -16,8 +16,8 @@
     <PackageReleaseNotes>Latest version of GStreamer must be installed from https://gstreamer.freedesktop.org</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="GstSharp" Version="1.14.2" PrivateAssets="all" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.38">
+    <PackageReference Include="GstSharp" Version="1.16.0" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.186">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
