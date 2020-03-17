@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PackageId>$(AssemblyName)</PackageId>
     <Description>A set of VL nodes for the multimedia framework GStreamer</Description>
     <EmitNuSpec>true</EmitNuSpec>
     <IncludeFrameworkReferencesInPackage>false</IncludeFrameworkReferencesInPackage>
     <Authors>vvvv group</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Copyright>Copyright © 2019 by vvvv group. All rights reserved.</Copyright>
+    <Copyright>Copyright © 2020 by vvvv group. All rights reserved.</Copyright>
     <PackageLicenseUrl>https://choosealicense.com/licenses/lgpl-3.0</PackageLicenseUrl>
     <PackageProjectUrl>https://vvvv.org</PackageProjectUrl>
     <RepositoryUrl>https://github.com/vvvv/VL.GStreamer</RepositoryUrl>
@@ -25,7 +26,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="VL.Core" Version="0.95.27-g0ee614c2f0" Pack="false" />
+    <PackageReference Include="VL.Core" Version="2019.2.0-0374-gbcd4a80a7b" Pack="false" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />

@@ -1,12 +1,13 @@
 ﻿using Gst;
 using System;
+using System.Buffers;
 using VL.Lib.Basics.Imaging;
 
 namespace VL.Lib.GStreamer
 {
     public class Image : IImage, IDisposable
     {
-        class Data : IImageData
+        unsafe class Data : MemoryManager<byte>, IImageData
         {
             readonly Gst.Buffer FBuffer;
             readonly MapInfo FMapInfo;
@@ -18,13 +19,25 @@ namespace VL.Lib.GStreamer
                 buffer.Map(out FMapInfo, MapFlags.Read);
             }
 
-            public IntPtr Pointer => FMapInfo.DataPtr;
-
             public int ScanSize { get; }
 
-            public int Size => (int)FMapInfo.Size;
+            public ReadOnlyMemory<byte> Bytes => Memory;
 
-            public void Dispose()
+            public override Span<byte> GetSpan()
+            {
+                return new Span<byte>(FMapInfo.DataPtr.ToPointer(), (int)FMapInfo.Size);
+            }
+
+            public override MemoryHandle Pin(int elementIndex = 0)
+            {
+                return new MemoryHandle(FMapInfo.DataPtr.ToPointer(), pinnable: this);
+            }
+
+            public override void Unpin()
+            {
+            }
+
+            protected override void Dispose(bool disposing)
             {
                 FBuffer.Unmap(FMapInfo);
             }
