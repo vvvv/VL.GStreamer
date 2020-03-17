@@ -9,7 +9,7 @@ Install [GStreamer 1.16.2](https://gstreamer.freedesktop.org/data/pkg/windows/1.
 - Inside from the VL patch editor open the nuget command line and type `nuget install VL.GStreamer -prerelease -version 1.0.18-gadcd7f95e5` - this is the latest version working with vvvv beta
 
 ### vvvv gamma
-- Install [vvvv gamma] (minimum required version is 2019.2-0374)
+- Install [vvvv gamma](https://vvvv.org/blog/vvvv-gamma-2019.2-preview) (minimum required version is 2019.2-0374)
 - Inside from the VL patch editor open the nuget command line and type `nuget install VL.GStreamer -prerelease`
 
 ## Building
