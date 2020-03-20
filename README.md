@@ -4,6 +4,8 @@ A set of nodes to use the multimedia framework GStreamer inside vvvv beta and ga
 ## Installation
 Install [GStreamer 1.16.2](https://gstreamer.freedesktop.org/data/pkg/windows/1.16.2/gstreamer-1.0-mingw-x86_64-1.16.2.msi) to default location (`C:\gstreamer`) using the __Complete__ option in the installer
 
+__Note:__ When installing check the __Custom__ tab and make sure the location is (`C:\gstreamer`). When you have done that, you can __go back__ and click on __Complete__ to finish the installtion.
+
 ### vvvv beta
 - Install [vvvv beta](https://vvvv.org/downloads) (minimum required version is beta38.1)
 - Inside from the VL patch editor open the nuget command line and type `nuget install VL.GStreamer -prerelease -version 1.0.18-gadcd7f95e5` - this is the latest version working with vvvv beta
