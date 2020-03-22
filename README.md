@@ -8,7 +8,7 @@ __Note:__ During installation, check the __Custom__ tab and make sure the locati
 
 ### vvvv beta
 - Install [vvvv beta](https://vvvv.org/downloads) (minimum required version is beta38.1)
-- Inside from the VL patch editor open the nuget command line and type `nuget install VL.GStreamer -prerelease -version 1.0.18-gadcd7f95e5` - this is the latest version working with vvvv beta
+- Inside from the VL patch editor open the nuget command line and type `nuget install VL.GStreamer -prerelease -version 1.0.18-gadcd7f95e5` - this is the last version working with vvvv beta
 
 ### vvvv gamma
 - Install [vvvv gamma](https://vvvv.org/blog/vvvv-gamma-2019.2-preview) (minimum required version is 2019.2-0374)
